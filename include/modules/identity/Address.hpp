@@ -8,7 +8,7 @@ public:
     inline static const std::string STREET_NOT_EMPTY = "Street cannot be empty";
     inline static const std::string TOWN_NOT_EMPTY = "Town cannot be empty";
     inline static const std::string POSTCODE_NOT_EMPTY = "Postcode cannot be empty";
-
+    //accessors
     Address(std::string houseNameNumber, std::string street, std::string town, std::string postcode){
 	trim(houseNameNumber);
 	trim(street);
@@ -20,34 +20,34 @@ public:
 	argumentNotEmpty(town, TOWN_NOT_EMPTY);
 	argumentNotEmpty(postcode, POSTCODE_NOT_EMPTY);
 
-	_houseNameNumber = houseNameNumber;
-	_street = street;
-	_town = town;
-	_postcode = postcode;
+	houseNameNumber_ = houseNameNumber;
+	street_ = street;
+	town_ = town;
+	postcode_ = postcode;
     }
 
-    Address(Address& address){
-	_houseNameNumber = address._houseNameNumber;
-	_street = address._street;
-	_town = address._town;
-	_postcode = address._postcode;
+    Address(const Address& address){
+	houseNameNumber_ = address.houseNameNumber_;
+	street_ = address.street_;
+	town_ = address.town_;
+	postcode_ = address.postcode_;
     }
-
+    //accessors
     std::string houseNameNumber() {
-	return _houseNameNumber;
+	return houseNameNumber_;
     }
     std::string street() {
-	return _street;
+	return street_;
     }
     std::string town() {
-	return _town;
+	return town_;
     }
     std::string postcode() {
-	return _postcode;
+	return postcode_;
     }
 private: 
-    std::string _houseNameNumber;
-    std::string _street;
-    std::string _town;
-    std::string _postcode;
+    std::string houseNameNumber_;
+    std::string street_;
+    std::string town_;
+    std::string postcode_;
 };

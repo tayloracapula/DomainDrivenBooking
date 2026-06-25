@@ -1,15 +1,16 @@
 #include <utility>
+#include "Identity.hpp"
 
-template <typename T>
+template <typename TDerived, typename TId>
 class Entity{
-    private:
-	T id_;	
-    protected:
-	explicit Entity(T id) : id_(std::move(id)) {}
-    public:
-	virtual ~Entity() = default;
+protected:
+    explicit Entity(Identity<TId> id) : id_(std::move(id)) {}
+public:
+    const Identity<TId>& id() const noexcept {return id_;}
 
-	const T id() const noexcept {return id_;}
-
-	bool sameIdentityAs(const Entity& other) const {return id_ == other.id_;}
+    bool sameIdentityAs(const TDerived& other) const {
+	return id_ == other.id();
+    }
+private:
+    Identity<TId> id_;
 };

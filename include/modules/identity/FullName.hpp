@@ -25,23 +25,23 @@ public:
 	argumentLength(firstName,1 , MAX_FIRST_NAME_LENGTH, FIRST_NAME_LENGTH);
 	argumentLength(surname,1 , MAX_LAST_NAME_LENGTH, SURNAME_LENGTH);
 
-	_firstName = firstName ;
-	_surname = surname;
+	firstName_ = firstName ;
+	surname_ = surname;
     }
     FullName(const FullName& fullName) {
-	_firstName = fullName._firstName;
-	_surname = fullName._surname;
+	firstName_ = fullName.firstName_;
+	surname_ = fullName.surname_;
     }
-
+    //accessors
     std::string firstName() {
-	return _firstName;
+	return firstName_;
     }
 
     std::string surname() {
-	return _surname;
+	return surname_;
     }
 
 private:
-    std::string _surname;
-    std::string _firstName;
+    std::string surname_;
+    std::string firstName_;
 };
