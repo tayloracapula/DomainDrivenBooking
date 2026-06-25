@@ -5,6 +5,10 @@ BUILDDIR := build
 OBJDIR := $(BUILDDIR)/obj
 BINDIR := $(BUILDDIR)/bin
 
+TEST_SRCDIR := tests
+TEST_BUILDDIR := $(BUILDDIR)/tests
+TEST_BINDIR := $(TEST_BUILDDIR)/bin
+
 # Build configuration (overridable through command line)
 CXX_STANDARD ?= c++20
 OPTIMISATION ?= 2
@@ -14,6 +18,10 @@ VERBOSE ?= 0
 
 SOURCES := $(shell find $(SRCDIR) -name '*.cpp')
 OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SOURCES))
+
+TEST_SOURCES := $(shell find $(TEST_SRCDIR) -name '*.cpp')
+TEST_OBJECTS := $(patsubst $(TEST_SRCDIR)/%.cpp,$(TEST_BUILDDIR)/%.o,$(TEST_SOURCES))
+TEST_TARGET := $(TEST_BINDIR)/tests
 
 # Compiler configuration (overridable through command line)
 CXX ?= g++
@@ -116,3 +124,20 @@ config:
 	@echo "  CXXFLAGS: $(CXXFLAGS)"
 	@echo "  INCLUDES: $(INCLUDES)"
 	@echo "  LIBS: $(LIBS)"
+
+.PHONY: test
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
+
+$(TEST_TARGET): $(TEST_OBJECTS) | $(TEST_BINDIR)
+	$(Q)$(CXX) $(TEST_OBJECTS) -o $@ $(LDFLAGS)
+
+$(TEST_BUILDDIR)/%.o: $(TEST_SRCDIR)/%.cpp
+	mkdir -p $(dir $@)
+	$(Q)$(CXX) $(CXXFLAGS) $(INCLUDES) -I./tests/include -c $< -o $@
+
+$(TEST_BUILDDIR):
+	$(Q)mkdir -p $(TEST_BUILDDIR)
+
+$(TEST_BINDIR):
+	$(Q)mkdir -p $(TEST_BINDIR)

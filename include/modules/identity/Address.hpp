@@ -1,5 +1,5 @@
-#include "../../shared/domain/ValueObject.hpp"
-#include "../../shared/domain/DomainAssertions.hpp"
+#include "shared/domain/ValueObject.hpp"
+#include "shared/domain/DomainAssertions.hpp"
 #include <string>
 
 class Address : public ValueObject {

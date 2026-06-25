@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 #include <string>
-#include "../tools/StringTools.hpp"
+#include "shared/tools/StringTools.hpp"
 
 inline void argumentNotEmpty(std::string value, std::string errorMessage) {
     if (trim_copy(value).empty()) {

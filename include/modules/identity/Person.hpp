@@ -1,9 +1,8 @@
 #pragma once
 #include "FullName.hpp"
 #include "Address.hpp"
-#include "../../shared/domain/Entity.hpp"
+#include "shared/domain/Entity.hpp"
 #include "shared/domain/Identity.hpp"
-#include <string>
 
 struct PersonId {};
 
