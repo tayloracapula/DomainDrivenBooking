@@ -4,12 +4,12 @@
 #include "shared/domain/Entity.hpp"
 #include "shared/domain/Identity.hpp"
 
-struct PersonId {};
+struct StaffId{};
 
-class Person : public Entity<Person, PersonId>{
+class StaffMember: public Entity<StaffMember, StaffId>{
 public:
 
-    Person(Identity<PersonId> id, FullName fullName, Address address)
+    StaffMember(Identity<StaffId> id, FullName fullName, Address address)
 	:   Entity(std::move(id)),
 	    fullName_(std::move(fullName)),
 	    address_(std::move(address)) {}
