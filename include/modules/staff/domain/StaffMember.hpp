@@ -3,8 +3,8 @@
 #include "Address.hpp"
 #include "shared/domain/Entity.hpp"
 #include "shared/domain/Identity.hpp"
+#include "StaffId.hpp"
 
-struct StaffId{};
 
 class StaffMember: public Entity<StaffMember, StaffId>{
 public:
