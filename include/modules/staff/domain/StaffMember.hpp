@@ -1,4 +1,5 @@
 #pragma once
+#include <optional>
 #include "FullName.hpp"
 #include "Address.hpp"
 #include "shared/domain/Entity.hpp"
@@ -10,11 +11,18 @@
 class StaffMember: public Entity<StaffMember, StaffId>{
 public:
     //constructor
-    StaffMember(Identity<StaffId> id, FullName fullName, Address address, Role role)
+    StaffMember(
+	Identity<StaffId> id, 
+	FullName fullName, 
+	Address address, 
+	Role role, 
+	std::optional<Identity<StaffId>> managerId = std::nullopt
+    )
 	:   Entity(std::move(id)),
 	    fullName_(std::move(fullName)),
 	    address_(std::move(address)),
-	    role_(std::move(role)){}
+	    role_(std::move(role)),
+	    managerId_(std::move(managerId)){}
     //operators
     void updateFullName(FullName fullName) {
 	fullName_ = std::move(fullName);
@@ -35,9 +43,13 @@ public:
     const Role& role() const noexcept {
 	return role_;
     }
+    const std::optional<Identity<StaffId>>& managerId() const noexcept {
+	return managerId_;
+    }
 
 private:
     FullName fullName_;
     Address address_;
     Role role_;
+    std::optional<Identity<StaffId>> managerId_;
 };

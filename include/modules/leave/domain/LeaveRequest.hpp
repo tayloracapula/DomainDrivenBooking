@@ -27,7 +27,31 @@ public:
     void reject();
     void cancel();
     //accessors
-    
+    const Identity<StaffId>& staffId() const noexcept {
+	return staffId_;
+    }    
+    const DateRange& dateRange() const noexcept {
+	return period_;
+    }
+    const LeaveReason& reason() const noexcept {
+	return reason_;
+    }
+    const LeaveStatus& status() const noexcept {
+	return status_;
+    }
+
+    bool isCancelled() {
+	return status_ == LeaveStatus::Cancelled;
+    }
+    bool isApproved() {
+	return status_ == LeaveStatus::Approved;
+    }
+    bool isPending() {
+	return status_ == LeaveStatus::Pending;
+    }
+    bool isRejected() {
+	return status_ == LeaveStatus::Rejected;
+    }
 
 private:
     Identity<StaffId> staffId_;
