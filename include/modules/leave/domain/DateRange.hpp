@@ -13,7 +13,7 @@ public:
 	if (!startDate.ok() || !endDate.ok()) {
 	    throw std::invalid_argument(INVALID_DATE);
 	}
-	if (std::chrono::sys_days(startDate) < std::chrono::sys_days(endDate)) {
+	if (std::chrono::sys_days(startDate) > std::chrono::sys_days(endDate)) {
 	    throw std::invalid_argument(END_BEFORE_START);
 	}
 
