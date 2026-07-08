@@ -1,4 +1,5 @@
 #include "modules/staff/domain/StaffId.hpp"
+#include "modules/staff/domain/StaffMember.hpp"
 #include "shared/domain/Entity.hpp"
 #include "shared/domain/Identity.hpp"
 #include "DateRange.hpp"
@@ -23,9 +24,9 @@ public:
 	status_(LeaveStatus::Pending)
     {}
     //operations
-    void approve();
-    void reject();
-    void cancel();
+    void approve(StaffMember approvingManager);
+    void reject(StaffMember denyingManager);
+    void cancel(StaffMember cancellingUser);
     //accessors
     const Identity<StaffId>& staffId() const noexcept {
 	return staffId_;

@@ -18,11 +18,13 @@ public:
 	Role role, 
 	std::optional<Identity<StaffId>> managerId = std::nullopt
     )
-	:   Entity(std::move(id)),
-	    fullName_(std::move(fullName)),
-	    address_(std::move(address)),
-	    role_(std::move(role)),
-	    managerId_(std::move(managerId)){}
+    :   
+	Entity(std::move(id)),
+        fullName_(std::move(fullName)),
+        address_(std::move(address)),
+        role_(std::move(role)),
+        managerId_(std::move(managerId))
+    {}
     //operators
     void updateFullName(FullName fullName) {
 	fullName_ = std::move(fullName);

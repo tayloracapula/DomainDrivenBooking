@@ -2,6 +2,8 @@
 
 A Project for enterprise software development module A leave booking system built around Domain Driven patterns and resiliant design
 
+The concept for the project surrounds modular monolith with divided responsibility between the leave booking and staff management
+
 ## Building
 
 ### Linux
@@ -27,6 +29,11 @@ make debug
 ### Configuration
 ```bash
 make config
+```
+
+### Testing
+```bash
+make test
 ```
 
 ## Author

@@ -2,9 +2,8 @@
 #include "ValueObject.hpp"
 #include <stdexcept>
 #include <string>
-#include <strstream>
 #include <utility>
-#include <chrono>
+#include <drogon/utils/Utilities.h>
 
 template <typename Ttag>
 class Identity : public ValueObject{
@@ -33,15 +32,7 @@ private:
     }
 
     static std::string generate_id() {
-	using namespace std::chrono;
-
-	auto now = system_clock::now().time_since_epoch();
-	auto millis = duration_cast<milliseconds>(now).count();
-
-	std::ostrstream ss;
-	ss << millis;
-	
-	return ss.str();
+	return drogon::utils::getUuid();
     }
 
     std::string value_;
