@@ -1,12 +1,9 @@
 #pragma once
-#include <string>
+#include "ServerConfiguration.hpp"
 
 class Server {
 public:
-    Server(std::string address, int port);
-    
-    std::string address;
-    int port;
-    
     int startServer();
+private:
+
 };
