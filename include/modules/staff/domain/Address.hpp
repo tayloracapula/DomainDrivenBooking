@@ -8,7 +8,7 @@ public:
     inline static const std::string STREET_NOT_EMPTY = "Street cannot be empty";
     inline static const std::string TOWN_NOT_EMPTY = "Town cannot be empty";
     inline static const std::string POSTCODE_NOT_EMPTY = "Postcode cannot be empty";
-    //accessors
+    //constructors
     Address(std::string houseNameNumber, std::string street, std::string town, std::string postcode){
 	trim(houseNameNumber);
 	trim(street);

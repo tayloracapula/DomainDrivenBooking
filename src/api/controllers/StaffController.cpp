@@ -5,21 +5,21 @@
  *
  */
 
-#include "infrastructure/server/api/LeaveController.hpp"
+#include "infrastructure/server/api/StaffController.hpp"
 #include <string>
 /*
-void LeaveController::update(const HttpRequestPtr &req,
+void StaffController::update(const HttpRequestPtr &req,
                              std::function<void(const HttpResponsePtr &)> &&callback)
 {
 
 }
 */
 
-
-void LeaveController::getLeaveRequest(
+void StaffController::getStaffMember(
 	    const HttpRequestPtr& req,
 	    std::function<void (const HttpResponsePtr&)>&& callback,
-	    std::string leaveId
+	    std::string staffId
 	    ){
 
 }
+
