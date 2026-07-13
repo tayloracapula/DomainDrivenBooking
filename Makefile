@@ -30,6 +30,7 @@ MINGW_CXX ?= x86_64-w64-mingw32-g++
 # Build flags 
 BASE_CXXFLAGS := -Wall -Wextra -std=$(CXX_STANDARD)
 OPT_FLAGS := -O$(OPTIMISATION)
+DEPFLAGS := -MMD -MP
 
 ifeq ($(DEBUG),1)
 	CXXFLAGS := $(BASE_CXXFLAGS) -g -DDEBUG
@@ -87,7 +88,7 @@ debug:
 # Object files
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp 
 	mkdir -p $(dir $@)
-	$(Q)$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+	$(Q)$(CXX) $(CXXFLAGS) $(DEPFLAGS) $(INCLUDES) -c $< -o $@
 	@echo "Compiled: $<"
 
 # Create directories
@@ -100,6 +101,13 @@ $(BINDIR):
 # Build both platforms
 .PHONY: both
 both: linux windows
+
+.PHONY: clean
+clean:
+	rm -rf $(BUILDDIR)
+	rm -f $(LINUX_TARGET)
+	rm -f $(WINDOWS_TARGET)
+	@echo "Build artifacts removed"
 
 
 .PHONY: check
@@ -134,10 +142,16 @@ $(TEST_TARGET): $(TEST_OBJECTS) | $(TEST_BINDIR)
 
 $(TEST_BUILDDIR)/%.o: $(TEST_SRCDIR)/%.cpp
 	mkdir -p $(dir $@)
-	$(Q)$(CXX) $(CXXFLAGS) $(INCLUDES) -I./tests/include -c $< -o $@
+	$(Q)$(CXX) $(CXXFLAGS) $(DEPFLAGS) $(INCLUDES) -I./tests/include -c $< -o $@
 
 $(TEST_BUILDDIR):
 	$(Q)mkdir -p $(TEST_BUILDDIR)
 
 $(TEST_BINDIR):
 	$(Q)mkdir -p $(TEST_BINDIR)
+
+DEPS := $(OBJECTS:.o=.d)
+TEST_DEPS := $(TEST_OBJECTS:.o=.d)
+
+-include $(DEPS)
+-include $(TEST_DEPS)

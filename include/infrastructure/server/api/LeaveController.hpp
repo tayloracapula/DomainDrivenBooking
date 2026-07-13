@@ -21,7 +21,7 @@ class LeaveController: public drogon::HttpController<LeaveController>
     METHOD_LIST_BEGIN
     // use METHOD_ADD to add your custom processing function here;
     //METHOD_ADD(LeaveController::update,"",Put,Options);
-    METHOD_ADD(LeaveController::getLeaveRequest, "/leave_request/{1}", Get);
+    ADD_METHOD_TO(LeaveController::getLeaveRequest, "/leave_request/{1}", Get);
     METHOD_LIST_END
 
 //    void update(const HttpRequestPtr &req,

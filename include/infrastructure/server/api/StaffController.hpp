@@ -21,7 +21,7 @@ class StaffController: public drogon::HttpController<StaffController>
     METHOD_LIST_BEGIN
     // use METHOD_ADD to add your custom processing function here;
     //METHOD_ADD(LeaveController::update,"",Put,Options);
-    METHOD_ADD(StaffController::getStaffMember, "/leave_request/{1}", Get);
+    ADD_METHOD_TO(StaffController::getStaffMember, "/leave_request/{1}", Get);
     METHOD_LIST_END
 
 //    void update(const HttpRequestPtr &req,
