@@ -1,0 +1,14 @@
+{
+    "rdbms": "postgresql",
+    "host": "localhost",
+    "port": 5432,
+    "dbname": "LeaveBooking",
+    "user": "pguser",
+    "passwd": "password",
+    "tables": [
+	"staff_member",
+	"leave_request",
+	"leave_allowance"
+    ],
+    "output_path": "./include/infrastructure/persistence/models"
+}

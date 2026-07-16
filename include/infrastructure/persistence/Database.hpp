@@ -3,4 +3,5 @@
 class Database{
 public:
     static drogon::orm::DbClient create(const DatabaseConfiguration& config);
+
 };

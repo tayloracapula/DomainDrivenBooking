@@ -6,6 +6,11 @@ The concept for the project surrounds modular monolith with divided responsibili
 
 ## Building
 
+## Accessessing the database
+note for me not really for other users
+```bash
+psql -d LeaveBooking -h localhost -U pguser
+```
 ### Linux
 ```bash
 make

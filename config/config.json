@@ -6,9 +6,21 @@
 	    "https": false
 	}
     ],
+
     "log": {
 	"log_path": "./logs/",
 	"logfile_base_name": "",
 	"log_level": "DEBUG"
-    }
+    },
+
+    "db_clients":[
+	{
+	    "name": "",
+	    "rdbms": "postgresql",
+	    "port": 5432,
+	    "dbname": "LeaveBooking",
+	    "user": "pguser",
+	    "passwd": "password"
+	}
+    ]
 }
