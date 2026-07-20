@@ -49,7 +49,7 @@ else
 endif
 
 INCLUDES ?= -I./include -I/usr/include/jsoncpp
-LIBS ?= -ldrogon -ltrantor -ljsoncpp -lpthread -lssl -lcrypto -luuid -lz
+LIBS ?= -ldrogon -ltrantor -ljsoncpp -lpthread -lssl -lcrypto -luuid -lz -lpq -lsqlite3
 
 WIN_LDFLAGS := -static
 WIN_LIBS := -lm

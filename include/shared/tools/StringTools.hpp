@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 #include <cctype>
+#include <iterator>
 #include <string>
 
 //start trim in place
@@ -41,4 +42,12 @@ inline std::string trim_copy (std::string s) {
     return s;
 }
 
-
+inline std::string toLowerASCII(std::string s){
+    std::string lower{};
+    std::transform(s.begin(), s.end(), std::back_inserter(lower),
+		    [](char c)
+		   {
+			return static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+		   });
+    return lower;
+}

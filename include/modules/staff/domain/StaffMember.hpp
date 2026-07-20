@@ -17,6 +17,7 @@ public:
 	FullName fullName, 
 	Address address, 
 	Role role, 
+	EmploymentStatus status,
 	std::optional<Identity<StaffId>> managerId = std::nullopt
     )
     :   
@@ -25,7 +26,7 @@ public:
         address_(std::move(address)),
         role_(std::move(role)),
         managerId_(std::move(managerId)),
-	employmentStatus_(EmploymentStatus::Active)
+	employmentStatus_(std::move(status))
     {}
     //operators
     void changeFullName(FullName fullName) {
