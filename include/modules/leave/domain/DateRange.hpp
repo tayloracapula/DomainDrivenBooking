@@ -25,10 +25,10 @@ public:
 	endDate_ = other.endDate_;
     }
     //accessors
-    Date startDate() {
+    const Date startDate() const noexcept{
 	return startDate_; 
     }
-    Date endDate() {
+    const Date endDate() const noexcept{
 	return endDate_;
     }
     

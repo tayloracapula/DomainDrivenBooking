@@ -33,11 +33,11 @@ public:
 	surname_ = fullName.surname_;
     }
     //accessors
-    std::string firstName() {
+    const std::string firstName() const noexcept {
 	return firstName_;
     }
 
-    std::string surname() {
+    const std::string surname() const noexcept{
 	return surname_;
     }
 

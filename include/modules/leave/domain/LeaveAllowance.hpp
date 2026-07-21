@@ -8,12 +8,15 @@ public:
     //constructor
     LeaveAllowance(
 	Identity<LeaveAllowanceId> id,
-	Identity<StaffId> staffId
+	Identity<StaffId> staffId,
+	int annualEntitlement,
+	int remainingDays
     )
     :
 	Entity(std::move(id)),
 	staffId_(std::move(staffId)),
-	annualEntitlement_(25)
+	annualEntitlement_(std::move(annualEntitlement)),
+	remainingDays_(std::move(remainingDays))
     {}
     //operations
     void deductDays(int days);

@@ -19,7 +19,7 @@ public:
 	reason_ = leaveReason.reason_;
     }
     //accessors
-    std::string reason() {
+    const std::string reason() const noexcept{
 	return reason_;
     }
 private:

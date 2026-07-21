@@ -18,6 +18,7 @@ VERBOSE ?= 0
 
 SOURCES := $(shell find $(SRCDIR) -name '*.cpp')
 OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SOURCES))
+APP_OBJECTS := $(filter-out build/obj/main.o,$(OBJECTS))
 
 TEST_SOURCES := $(shell find $(TEST_SRCDIR) -name '*.cpp')
 TEST_OBJECTS := $(patsubst $(TEST_SRCDIR)/%.cpp,$(TEST_BUILDDIR)/%.o,$(TEST_SOURCES))
@@ -135,10 +136,10 @@ config:
 
 .PHONY: test
 test: $(TEST_TARGET)
-	./$(TEST_TARGET)
+	./$(TEST_TARGET) --success --duration
 
-$(TEST_TARGET): $(TEST_OBJECTS) | $(TEST_BINDIR)
-	$(Q)$(CXX) $(TEST_OBJECTS) -o $@ $(LDFLAGS)
+$(TEST_TARGET): $(APP_OBJECTS) $(TEST_OBJECTS) | $(TEST_BINDIR)
+	$(Q)$(CXX) $(APP_OBJECTS) $(TEST_OBJECTS) -o $@ $(LDFLAGS) $(LIBS)
 
 $(TEST_BUILDDIR)/%.o: $(TEST_SRCDIR)/%.cpp
 	mkdir -p $(dir $@)

@@ -8,7 +8,7 @@ public:
 	role_ = role;
     }
     //accessors
-    RoleType role() {
+    const RoleType role() const noexcept{
 	return role_;
     }
 

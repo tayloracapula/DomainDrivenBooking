@@ -33,16 +33,16 @@ public:
 	postcode_ = address.postcode_;
     }
     //accessors
-    std::string houseNameNumber() {
+    const std::string houseNameNumber() const noexcept{
 	return houseNameNumber_;
     }
-    std::string street() {
+    const std::string street() const noexcept{
 	return street_;
     }
-    std::string town() {
+    const std::string town() const noexcept{
 	return town_;
     }
-    std::string postcode() {
+    const std::string postcode() const noexcept{
 	return postcode_;
     }
 private: 
