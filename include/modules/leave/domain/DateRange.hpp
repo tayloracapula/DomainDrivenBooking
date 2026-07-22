@@ -1,3 +1,4 @@
+#pragma once
 #include "shared/domain/ValueObject.hpp"
 #include <chrono>
 #include <stdexcept>

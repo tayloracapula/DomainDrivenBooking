@@ -1,6 +1,7 @@
 #include "infrastructure/persistence/mappers/StaffMapper.hpp"
 #include "modules/staff/domain/StaffId.hpp"
 #include "modules/staff/domain/StaffMember.hpp"
+#include "shared/tools/StringTools.hpp"
 #include <optional>
 
 StaffMember StaffMapper::toDomain(const drogon_model::LeaveBooking::StaffMember &model)
@@ -19,12 +20,12 @@ StaffMember StaffMapper::toDomain(const drogon_model::LeaveBooking::StaffMember 
 	),
 	Role(
 	    stringToRole(
-		model.getValueOfRole()
+		toLowerASCII(model.getValueOfRole())
 	    )
 	),
 	EmploymentStatus(
 	    stringToEmploymentStatus(
-		model.getValueOfEmploymentStatus()
+		toLowerASCII(model.getValueOfEmploymentStatus())
 	    )
 	),
 	model.getValueOfManagerId().empty()

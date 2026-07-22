@@ -1,3 +1,4 @@
+#pragma once
 #include "shared/domain/DomainAssertions.hpp"
 #include "shared/domain/ValueObject.hpp"
 #include "shared/tools/StringTools.hpp"

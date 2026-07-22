@@ -7,8 +7,12 @@ public:
 	drogon::orm::DbClientPtr db)
 	: db_(std::move(db))
     {}
+
     void save(const LeaveRequest& leaveRequest) override;
 
+    std::optional<LeaveRequest> findById(const Identity<LeaveRequestId>& id) override;
+
+    std::vector<LeaveRequest> findByStaff(const Identity<StaffId>& id) override;
 private:
     drogon::orm::DbClientPtr db_;
 };
