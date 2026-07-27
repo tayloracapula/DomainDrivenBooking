@@ -8,19 +8,31 @@
     ],
 
     "log": {
-	"log_path": "./logs/",
-	"logfile_base_name": "",
+	"log_path": "logs/",
+	"logfile_base_name": "logs.log",
 	"log_level": "DEBUG"
     },
 
     "db_clients":[
 	{
-	    "name": "",
+	    "name": "default",
 	    "rdbms": "postgresql",
+	    "host": "localhost",
 	    "port": 5432,
 	    "dbname": "LeaveBooking",
 	    "user": "pguser",
-	    "passwd": "password"
+	    "passwd": "password",
+	    "connection_number": 1
+	},
+	{
+	    "name": "test",
+	    "rdbms": "postgresql",
+	    "host": "localhost",
+	    "port": 5432,
+	    "dbname": "LeaveBooking_test",
+	    "user": "pguser",
+	    "passwd": "password",
+	    "connection_number": 2
 	}
     ]
 }

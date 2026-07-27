@@ -6,9 +6,10 @@ using namespace std;
 int main() {
     try {   
 	cout << "Starting Server\n";
-	Server myServer;
+	Server Server("config/config.json","default");
 	
-	myServer.startServer();
+	Server.initialise();
+	Server.start();
 
 	return 0;
     } catch (const exception& e){

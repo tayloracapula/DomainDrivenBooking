@@ -4,6 +4,7 @@ SRCDIR := src
 BUILDDIR := build
 OBJDIR := $(BUILDDIR)/obj
 BINDIR := $(BUILDDIR)/bin
+CONFIGDIR := config
 
 TEST_SRCDIR := tests
 TEST_BUILDDIR := $(BUILDDIR)/tests
@@ -57,17 +58,18 @@ WIN_LIBS := -lm
 
 LINUX_TARGET := $(BINDIR)/$(PROJECT_NAME)
 WINDOWS_TARGET := $(BINDIR)/$(PROJECT_NAME).exe
-
 # Default target
 .PHONY: all
 all: linux
 
 # Linux build
 .PHONY: linux
-linux: $(LINUX_TARGET)
+linux: $(LINUX_TARGET) 
 
 $(LINUX_TARGET): $(OBJECTS) | $(BINDIR)
 	$(Q)$(CXX) $(OBJECTS) -o $@ $(LDFLAGS) $(LIBS)
+	$(Q)mkdir -p $(BINDIR)/config
+	$(Q)cp $(CONFIGDIR)/config.json $(BINDIR)/config/config.json
 	@echo "Linux build complete: $@"
 
 # Windows cross compile
