@@ -17,13 +17,14 @@ public:
 	Identity<LeaveRequestId> id,
 	Identity<StaffId> staffId,
 	DateRange period,
-	LeaveReason reason
+	LeaveReason reason,
+	LeaveStatus status
     )
     :	Entity(std::move(id)),
 	staffId_(std::move(staffId)),
 	period_(std::move(period)),
 	reason_(std::move(reason)),
-	status_(LeaveStatus::Pending)
+	status_(std::move(status))
     {}
     //operations
     void approve(StaffMember approvingManager);

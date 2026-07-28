@@ -17,7 +17,8 @@ TEST_CASE("LeaveRequest maps to ORM model") {
 	    std::chrono::year{2026}/1/1,
 	    std::chrono::year{2026}/1/5
 	),
-	LeaveReason("Holiday")
+	LeaveReason("Holiday"),
+	LeaveStatus::Pending
     );
 
     auto model = LeaveMapper::toModel(request);
@@ -87,6 +88,7 @@ TEST_CASE("ORM model maps to LeaveRequest") {
     model.setEndDate(
 	toTrantorDate(std::chrono::year{2026}/1/5)
     );
+    model.setLeaveStatus("Pending");
 
     auto result = LeaveMapper::toDomain(model);
 
@@ -147,7 +149,8 @@ TEST_CASE("LeaveRequest round trip mapping"){
 	    std::chrono::year{2026}/1/1,
 	    std::chrono::year{2026}/1/5
 	),
-	LeaveReason("Holiday")
+	LeaveReason("Holiday"),
+	LeaveStatus::Pending
     );
 
     auto model = LeaveMapper::toModel(origional);

@@ -1,7 +1,6 @@
 #include "infrastructure/server/ServerCore.hpp"
 #include <cstdio>
 #include <drogon/HttpAppFramework.h>
-#include <string>
 
 void Server::initialise(){
     drogon::app().loadConfigFile(configPath_);
