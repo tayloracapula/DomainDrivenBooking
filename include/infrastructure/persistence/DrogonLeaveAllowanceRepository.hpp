@@ -12,7 +12,7 @@ public:
 
     void save(const LeaveAllowance& leaveAllowance) override;
 
-    std::optional<LeaveAllowance> findById(const Identity<LeaveAllowanceId>& id) override;
+    std::optional<LeaveAllowance> findById(const Identity<LeaveAllowanceId>& id) ;
 
     std::optional<LeaveAllowance> findByStaff(const Identity<StaffId>& id) override;
 

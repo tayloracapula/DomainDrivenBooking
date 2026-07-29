@@ -1,7 +1,7 @@
 #include <string>
 using string = std::string;
 
-struct ApproveDenyLeaveRequest{
+struct ApproveDenyLeaveRequestDTO{
     string leaveRequestId;
     string ManagerId;
 };

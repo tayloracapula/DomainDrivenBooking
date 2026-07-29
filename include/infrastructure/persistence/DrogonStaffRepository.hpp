@@ -10,7 +10,7 @@ public:
     {}
     void save(const StaffMember& staffMember) override;
 
-    std::optional<StaffMember> findById(const Identity<StaffId>& id) override;
+    std::optional<StaffMember> findById(const Identity<StaffId>& id);
 
     std::vector<StaffMember> findByManager(const Identity<StaffId>& managerId) override;
 

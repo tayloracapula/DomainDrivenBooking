@@ -2,13 +2,13 @@
 #include <string>
 enum class EmploymentStatus {
     Active,
-    OnLeave,
+    Suspended,
     Terminated
 };
 
 inline EmploymentStatus stringToEmploymentStatus(const std::string &value){
     if (value == "active") return EmploymentStatus::Active;
-    if (value == "on leave") return EmploymentStatus::OnLeave;
+    if (value == "suspended") return EmploymentStatus::Suspended;
     if (value == "terminated") return EmploymentStatus::Terminated;
 
     throw std::runtime_error(
@@ -19,7 +19,7 @@ inline EmploymentStatus stringToEmploymentStatus(const std::string &value){
 inline std::string employmentStatusToString(EmploymentStatus status){
     switch (status) {
 	case EmploymentStatus::Active: return "Active";
-	case EmploymentStatus::OnLeave: return "On Leave";
+	case EmploymentStatus::Suspended: return "Suspended";
 	case EmploymentStatus::Terminated: return "Terminated";
 	default : return "I have no idea how you got here";
     }

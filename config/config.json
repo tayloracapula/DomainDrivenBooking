@@ -10,7 +10,7 @@
     "log": {
 	"log_path": "logs/",
 	"logfile_base_name": "logs.log",
-	"log_level": "DEBUG"
+	"log_level": "INFO"
     },
 
     "db_clients":[

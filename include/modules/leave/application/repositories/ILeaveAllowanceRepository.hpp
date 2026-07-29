@@ -1,12 +1,10 @@
 #include "modules/leave/domain/LeaveAllowance.hpp"
 #include "modules/leave/domain/LeaveAllowanceId.hpp"
+#include "shared/domain/IRepository.hpp"
 #include <optional>
 
-class ILeaveAllowanceRepository{
+class ILeaveAllowanceRepository: public IRepository<LeaveAllowance, LeaveAllowanceId>{
 public:
-    virtual void save(const LeaveAllowance&) = 0;
-
-    virtual std::optional<LeaveAllowance> findById(const Identity<LeaveAllowanceId>& id) = 0;
 
     virtual std::optional<LeaveAllowance> findByStaff(const Identity<StaffId>& id) = 0;
 
