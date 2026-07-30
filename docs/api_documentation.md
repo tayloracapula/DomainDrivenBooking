@@ -5,3 +5,5 @@ all endpoints related to each domain begin with the domain's name e.g
 /leave/get_leave
 /staff/get_staff
 
+## Dates
+all dates are in the format "{Year}-{Month}-{Day}"

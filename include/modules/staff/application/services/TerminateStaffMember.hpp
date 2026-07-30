@@ -2,6 +2,18 @@
 #include "shared/domain/IUseCase.hpp"
 #include "shared/domain/Identity.hpp"
 #include "modules/staff/application/dto/TerminateStaffMemberDTO.hpp"
+#include "modules/staff/application/dto/AssignManagerDTO.hpp"
+#include "modules/staff/application/repositories/IStaffRepository.hpp"
+
 
 class TerminateStaffMember : public IUseCase<TerminateStaffMemberDTO, Identity<StaffId>>
-{};
+{
+public:
+    TerminateStaffMember(
+	IStaffRepository& staffRepository)
+    :   staffRepository_(staffRepository)
+    {}
+    Identity<StaffId> execute(const TerminateStaffMemberDTO& dto) override;
+private:
+    IStaffRepository& staffRepository_;
+};
