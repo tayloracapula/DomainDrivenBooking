@@ -10,9 +10,11 @@ public:
 	: db_(std::move(db))
     {}
 
-    void save(const LeaveAllowance& leaveAllowance) override;
+    void create(const LeaveAllowance& leaveAllowance) override;
 
-    std::optional<LeaveAllowance> findById(const Identity<LeaveAllowanceId>& id) ;
+    void update(const LeaveAllowance& leaveAllowance) override;
+
+    std::optional<LeaveAllowance> findById(const Identity<LeaveAllowanceId>& id) override;
 
     std::optional<LeaveAllowance> findByStaff(const Identity<StaffId>& id) override;
 

@@ -8,7 +8,9 @@ public:
 	: db_(std::move(db))
     {}
 
-    void save(const LeaveRequest& leaveRequest) override;
+    void create(const LeaveRequest& leaveRequest) override;
+
+    void update(const LeaveRequest& leaveRequest) override;
 
     std::optional<LeaveRequest> findById(const Identity<LeaveRequestId>& id) override;
 

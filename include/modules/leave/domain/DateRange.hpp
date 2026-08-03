@@ -17,13 +17,19 @@ public:
 	if (std::chrono::sys_days(startDate) > std::chrono::sys_days(endDate)) {
 	    throw std::invalid_argument(END_BEFORE_START);
 	}
+	std::chrono::sys_days startDays = startDate;
+	std::chrono::sys_days endDays = endDate;
+
+	auto diff = endDays - startDays;
 
 	startDate_ = startDate;
 	endDate_ = endDate;
+	days_ = diff.count();
     }
     DateRange(const DateRange& other){
 	startDate_ = other.startDate_;
 	endDate_ = other.endDate_;
+	days_ = other.days_;
     }
     //accessors
     const Date startDate() const noexcept{
@@ -33,7 +39,11 @@ public:
 	return endDate_;
     }
     
+    const int days() const noexcept{
+	return days_;
+    }
 private:
     Date startDate_;
     Date endDate_;
+    int days_;
 };

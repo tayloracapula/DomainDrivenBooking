@@ -27,9 +27,9 @@ public:
 	status_(std::move(status))
     {}
     //operations
-    void approve(StaffMember approvingManager);
-    void reject(StaffMember denyingManager);
-    void cancel(StaffMember cancellingUser);
+    void approve();
+    void reject();
+    void cancel();
     //accessors
     const Identity<StaffId>& staffId() const noexcept {
 	return staffId_;

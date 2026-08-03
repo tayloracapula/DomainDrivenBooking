@@ -30,8 +30,8 @@ TEST_CASE_FIXTURE(RepositoryFixture, "LeaveRequest can be saved and loaded")
 	LeaveStatus::Pending
     );
 
-    staffRepository->save(staff);
-    leaveRepository->save(origional);
+    staffRepository->create(staff);
+    leaveRepository->create(origional);
 
     auto loaded = leaveRepository->findById(origional.id());
 
@@ -66,8 +66,8 @@ TEST_CASE_FIXTURE(RepositoryFixture,"StaffMember's leave requests can be loaded"
 	LeaveStatus::Pending
     );
 
-    staffRepository->save(staff);
-    leaveRepository->save(first);
+    staffRepository->create(staff);
+    leaveRepository->create(first);
 
     auto loaded = leaveRepository->findByStaff(staff.id());
 

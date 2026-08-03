@@ -7,13 +7,22 @@
 
 using LeaveModel = drogon_model::LeaveBooking::LeaveRequest;
 
-void DrogonLeaveRepository::save(const LeaveRequest& leaveRequest)
+void DrogonLeaveRepository::create(const LeaveRequest& leaveRequest)
 {
     LeaveModel model = LeaveMapper::toModel(leaveRequest);
 
     drogon::orm::Mapper<LeaveModel> mapper(db_);
 
     mapper.insert(model);
+}
+
+void DrogonLeaveRepository::update(const LeaveRequest& leaveRequest)
+{
+    LeaveModel model = LeaveMapper::toModel(leaveRequest);
+
+    drogon::orm::Mapper<LeaveModel> mapper(db_);
+
+    mapper.update(model);
 }
 
 std::optional<LeaveRequest> DrogonLeaveRepository::findById(const Identity<LeaveRequestId>& id)

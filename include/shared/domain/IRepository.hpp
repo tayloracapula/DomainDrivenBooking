@@ -7,7 +7,9 @@ template<
 >
 class IRepository{
 public:
-    virtual void save( const Taggregate& aggregate) = 0; 
+    virtual void create(const Taggregate& aggregate) = 0;
+
+    virtual void update(const Taggregate& aggregate) = 0;
 
     virtual std::optional<Taggregate> findById(const Identity<TId>& id) = 0;
     virtual ~IRepository() = default;

@@ -26,8 +26,8 @@ TEST_CASE_FIXTURE(RepositoryFixture,"LeaveAllowance can be saved and loaded")
 	25
     );
 
-    staffRepository->save(staff);
-    leaveAllowanceRepository->save(origional);
+    staffRepository->create(staff);
+    leaveAllowanceRepository->create(origional);
 
     auto loaded = leaveAllowanceRepository->findById(origional.id());
 
@@ -58,8 +58,8 @@ TEST_CASE_FIXTURE(RepositoryFixture, "LeaveAllowance can be loaded by staffId")
 	25
     );
 
-    staffRepository->save(staff);
-    leaveAllowanceRepository->save(origional);
+    staffRepository->create(staff);
+    leaveAllowanceRepository->create(origional);
 
     auto loaded = leaveAllowanceRepository->findByStaff(staff.id());
 

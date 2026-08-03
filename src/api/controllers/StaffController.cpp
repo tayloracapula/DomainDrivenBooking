@@ -2,7 +2,7 @@
 
 using namespace drogon;
 
-void Staff::getStaffMember(
+void StaffController::getStaffMember(
 	    const HttpRequestPtr& req,
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string staffId

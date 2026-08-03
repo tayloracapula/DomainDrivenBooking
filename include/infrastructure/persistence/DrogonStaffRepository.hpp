@@ -8,9 +8,11 @@ public:
 	drogon::orm::DbClientPtr db)
 	: db_(std::move(db))
     {}
-    void save(const StaffMember& staffMember) override;
+    void create(const StaffMember& staffMember) override;
 
-    std::optional<StaffMember> findById(const Identity<StaffId>& id);
+    void update(const StaffMember& staffMember) override;
+
+    std::optional<StaffMember> findById(const Identity<StaffId>& id) override;
 
     std::vector<StaffMember> findByManager(const Identity<StaffId>& managerId) override;
 

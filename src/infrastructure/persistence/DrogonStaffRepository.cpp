@@ -6,13 +6,22 @@
 
 using StaffModel = drogon_model::LeaveBooking::StaffMember;
 
-void DrogonStaffRepository::save(const StaffMember& staffMember)
+void DrogonStaffRepository::create(const StaffMember& staffMember)
 {
     StaffModel model = StaffMapper::toModel(staffMember);
 
     drogon::orm::Mapper<StaffModel> mapper(db_);
 
     mapper.insert(model);
+}
+
+void DrogonStaffRepository::update(const StaffMember& staffMember)
+{
+    StaffModel model = StaffMapper::toModel(staffMember);
+
+    drogon::orm::Mapper<StaffModel> mapper(db_);
+
+    mapper.update(model);
 }
 
 std::optional<StaffMember> DrogonStaffRepository::findById(const Identity<StaffId>& id)

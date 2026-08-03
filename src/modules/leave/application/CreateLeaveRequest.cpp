@@ -11,19 +11,25 @@ Identity<LeaveRequestId> CreateLeaveRequest::execute(const CreateLeaveRequestDTO
 
 	if (!leaveAllowance) throw std::runtime_error("Failed to retrieve leave allowance");
 
+	DateRange dateRange(
+		parseDate(dto.startDate),
+		parseDate(dto.endDate)
+	);
+	
+	if (dateRange.days() > leaveAllowance->remainingDays()) {
+	    throw std::runtime_error("Not enough leave remaining");
+	}
+
 	LeaveRequest request(
 	    Identity<LeaveRequestId>::generate(),
 	    Identity<StaffId>::of(dto.staffId),
-	    DateRange(
-		parseDate(dto.startDate),
-		parseDate(dto.endDate)
-	    ),
+	    dateRange,
 	    LeaveReason(dto.reason),
 	    LeaveStatus::Pending
 	);
 
 
-	leaveRepository_.save(request);
+	leaveRepository_.create(request);
 
 	return request.id();
 

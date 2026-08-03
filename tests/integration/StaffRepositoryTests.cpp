@@ -18,7 +18,7 @@ TEST_CASE_FIXTURE(RepositoryFixture, "StaffMember can be saved and loaded")
 	EmploymentStatus::Active
     );
 
-    staffRepository->save(origional);
+    staffRepository->create(origional);
 
     auto loaded = staffRepository->findById(origional.id());
 
@@ -59,8 +59,8 @@ TEST_CASE_FIXTURE(RepositoryFixture, "StaffMember can be found by manager id")
     );
 
 
-    staffRepository->save(manager);
-    staffRepository->save(origional);
+    staffRepository->create(manager);
+    staffRepository->create(origional);
 
     auto loaded = staffRepository->findByManager(manager.id());
 
@@ -102,8 +102,8 @@ TEST_CASE_FIXTURE(RepositoryFixture, "Manager can be found by its staff member")
     );
 
 
-    staffRepository->save(manager);
-    staffRepository->save(origional);
+    staffRepository->create(manager);
+    staffRepository->create(origional);
 
     auto loaded = staffRepository->findManagerOf(origional.id());
 

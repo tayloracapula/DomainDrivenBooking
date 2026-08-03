@@ -5,7 +5,7 @@
 #include <trantor/utils/Logger.h>
 using namespace drogon;
 
-void Leave::getLeaveRequest(
+void LeaveController::getLeaveRequest(
 	    const HttpRequestPtr& req,
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string leaveId

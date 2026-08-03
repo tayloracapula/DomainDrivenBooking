@@ -6,13 +6,22 @@
 
 using LeaveAllowanceModel = drogon_model::LeaveBooking::LeaveAllowance;
 
-void DrogonLeaveAllowanceRepository::save(const LeaveAllowance& leaveAllowance)
+void DrogonLeaveAllowanceRepository::create(const LeaveAllowance& leaveAllowance)
 {
     LeaveAllowanceModel model = LeaveAllowanceMapper::toModel(leaveAllowance);
 
     drogon::orm::Mapper<LeaveAllowanceModel> mapper(db_);
 
     mapper.insert(model);
+}
+
+void DrogonLeaveAllowanceRepository::update(const LeaveAllowance& leaveAllowance)
+{
+    LeaveAllowanceModel model = LeaveAllowanceMapper::toModel(leaveAllowance);
+
+    drogon::orm::Mapper<LeaveAllowanceModel> mapper(db_);
+
+    mapper.update(model);
 }
 
 std::optional<LeaveAllowance> DrogonLeaveAllowanceRepository::findById(const Identity<LeaveAllowanceId>& id)

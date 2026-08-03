@@ -4,6 +4,7 @@
 #include "modules/leave/application/dto/CancelLeaveRequestDTO.hpp"
 #include "modules/leave/application/repositories/ILeaveAllowanceRepository.hpp"
 #include "modules/leave/application/repositories/ILeaveRepository.hpp"
+#include "modules/staff/application/repositories/IStaffRepository.hpp"
 
 
 class CancelLeaveRequest : public IUseCase<CancelLeaveRequestDTO, Identity<LeaveRequestId>>
@@ -11,12 +12,15 @@ class CancelLeaveRequest : public IUseCase<CancelLeaveRequestDTO, Identity<Leave
 public:
     CancelLeaveRequest(
 	ILeaveRepository& leaveRepository,
-	ILeaveAllowanceRepository& leaveAllowanceRepository)
+	ILeaveAllowanceRepository& leaveAllowanceRepository,
+	IStaffRepository& staffRepository)
     :   leaveRepository_(leaveRepository),
-	leaveAllowanceRepository_(leaveAllowanceRepository)
+	leaveAllowanceRepository_(leaveAllowanceRepository),
+	staffRepository_(staffRepository)
     {}
     Identity<LeaveRequestId> execute(const CancelLeaveRequestDTO& dto) override;
 private:
     ILeaveRepository& leaveRepository_;
     ILeaveAllowanceRepository& leaveAllowanceRepository_;
+    IStaffRepository& staffRepository_;
 };
