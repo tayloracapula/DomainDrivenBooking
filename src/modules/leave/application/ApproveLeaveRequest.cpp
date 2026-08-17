@@ -4,6 +4,7 @@
 #include <exception>
 #include <stdexcept>
 #include "modules/leave/application/services/ApproveLeaveRequest.hpp"
+
 Identity<LeaveRequestId> ApproveLeaveRequest::execute(const ApproveDenyLeaveRequestDTO& dto){
     try {
 	auto leaveRequest = leaveRepository_.findById(Identity<LeaveRequestId>::of(dto.leaveRequestId));

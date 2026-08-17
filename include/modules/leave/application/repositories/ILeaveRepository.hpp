@@ -1,3 +1,5 @@
+#pragma once
+
 #include "modules/leave/domain/LeaveRequest.hpp"
 #include "modules/staff/domain/StaffId.hpp"
 #include "shared/domain/Identity.hpp"

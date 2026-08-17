@@ -1,3 +1,5 @@
+#pragma once
+
 #include "modules/staff/domain/StaffMember.hpp"
 #include "shared/domain/Identity.hpp"
 #include "shared/domain/IRepository.hpp"

@@ -4,8 +4,9 @@ using string = std::string;
 
 struct CreateStaffMemberDTO{
     string firstName; 
-    string surname;
+    string surName;
     string houseNameNumber;
+    string street;
     string town;
     string postcode;
     string role;

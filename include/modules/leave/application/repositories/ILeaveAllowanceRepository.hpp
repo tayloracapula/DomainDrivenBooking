@@ -1,3 +1,5 @@
+#pragma once 
+
 #include "modules/leave/domain/LeaveAllowance.hpp"
 #include "modules/leave/domain/LeaveAllowanceId.hpp"
 #include "shared/domain/IRepository.hpp"
