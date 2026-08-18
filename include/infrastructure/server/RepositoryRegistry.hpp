@@ -15,15 +15,15 @@ public:
 	return registry;
     };
 
-    void SetLeaveRepository(std::shared_ptr<ILeaveRepository> repository) {
+    void setLeaveRepository(std::shared_ptr<ILeaveRepository> repository) {
 	leaveRepository_ = std::move(repository);
     };
 
-    void SetLeaveAllowanceRepository(std::shared_ptr<ILeaveAllowanceRepository> repository) {
+    void setLeaveAllowanceRepository(std::shared_ptr<ILeaveAllowanceRepository> repository) {
 	leaveAllowanceRepository_ = std::move(repository);
     };
 
-    void SetStaffRepository(std::shared_ptr<IStaffRepository> repository) {
+    void setStaffRepository(std::shared_ptr<IStaffRepository> repository) {
 	staffRepository_ = std::move(repository);
     };
 
