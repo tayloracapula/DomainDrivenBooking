@@ -17,13 +17,13 @@ void Server::initialise(){
     {
 	auto db = drogon::app().getDbClient(databaseName_);
 	
-	    RepositoryRegistry::instance().setLeaveRepository(std::make_shared<DrogonLeaveRepository>(db));
+	RepositoryRegistry::instance().setLeaveRepository(std::make_shared<DrogonLeaveRepository>(db));
 
-	    RepositoryRegistry::instance().setLeaveAllowanceRepository(std::make_shared<DrogonLeaveAllowanceRepository>(db));
+	RepositoryRegistry::instance().setLeaveAllowanceRepository(std::make_shared<DrogonLeaveAllowanceRepository>(db));
 
-	    RepositoryRegistry::instance().setStaffRepository(std::make_shared<DrogonStaffRepository>(db));
+	RepositoryRegistry::instance().setStaffRepository(std::make_shared<DrogonStaffRepository>(db));
 
-	    ApplicationServices::instance().initialise();
+	ApplicationServices::instance().initialise();
     });
     //Drogon automatically scans for its controllers and database on setup so there is no need to configure routing manually
 }
