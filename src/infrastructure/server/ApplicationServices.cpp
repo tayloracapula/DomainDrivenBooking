@@ -20,6 +20,18 @@ void ApplicationServices::initialise()
     terminateStaffMember_ = std::make_unique<TerminateStaffMember>(
 	repos.staffRepository()
     );
+    
+    getStaffMember_ = std::make_unique<GetStaffMember>(
+	repos.staffRepository()
+    );
+
+    getStaffForManager_ = std::make_unique<GetStaffForManager>(
+	repos.staffRepository()
+    );
+
+    getManagerForStaff_ = std::make_unique<GetManagerForStaff>(
+	repos.staffRepository()
+    );
 
 
     createLeaveRequest_ = std::make_unique<CreateLeaveRequest>(
@@ -44,4 +56,17 @@ void ApplicationServices::initialise()
 	repos.leaveAllowanceRepository(),
 	repos.staffRepository()
     );
+
+    getLeaveRequest_ = std::make_unique<GetLeaveRequest>(
+	repos.leaveRepository()
+    );
+
+    getLeaveForStaff_ = std::make_unique<GetLeaveForStaff>(
+	repos.leaveRepository()
+    );
+
+    getLeaveAllowance_ = std::make_unique<GetLeaveAllowance>(
+	repos.leaveAllowanceRepository()
+    );
+
 }

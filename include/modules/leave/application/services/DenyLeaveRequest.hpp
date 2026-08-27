@@ -10,7 +10,7 @@ class DenyLeaveRequest : public IUseCase<ApproveDenyLeaveRequestDTO, Identity<Le
 {
 public:
     DenyLeaveRequest(
-ILeaveRepository& leaveRepository,
+	ILeaveRepository& leaveRepository,
 	ILeaveAllowanceRepository& leaveAllowanceRepository,
 	IStaffRepository& staffRepository)
     :   leaveRepository_(leaveRepository),

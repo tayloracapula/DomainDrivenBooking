@@ -33,6 +33,18 @@ class Leave: public drogon::HttpController<Leave>
 	    std::string leaveId
     );
 
+    void getLeaveForStaff(
+	    const HttpRequestPtr& req,
+	    std::function<void (const HttpResponsePtr&)>&& callback,
+	    std::string staffId 
+    );
+
+    void getLeaveAllowance(
+	    const HttpRequestPtr& req,
+	    std::function<void (const HttpResponsePtr&)>&& callback,
+	    std::string leaveAllowanceId 
+    );
+
     void cancelLeaveRequest(
 	    const HttpRequestPtr& req,
 	    std::function<void (const HttpResponsePtr&)>&& callback,
@@ -49,12 +61,6 @@ class Leave: public drogon::HttpController<Leave>
 	    const HttpRequestPtr& req,
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string leaveId
-    );
-
-    void getLeaveRequestsForStaff(
-	    const HttpRequestPtr& req,
-	    std::function<void (const HttpResponsePtr&)>&& callback,
-	    std::string staffId
     );
 
 };

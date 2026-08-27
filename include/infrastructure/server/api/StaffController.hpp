@@ -34,6 +34,18 @@ class Staff: public drogon::HttpController<Staff>
 	std::string staffId
     );
 
+    void getStaffForManager(
+	const HttpRequestPtr& req,
+	std::function<void (const HttpResponsePtr&)>&& callback,
+	std::string staffId
+    );
+
+    void getManagerForStaff(
+	const HttpRequestPtr& req,
+	std::function<void (const HttpResponsePtr&)>&& callback,
+	std::string staffId
+    );
+
     void updateName(
 	const HttpRequestPtr& req,
 	std::function<void (const HttpResponsePtr&)>&& callback,
@@ -51,12 +63,5 @@ class Staff: public drogon::HttpController<Staff>
 	std::function<void (const HttpResponsePtr&)>&& callback,
 	std::string staffId
     );
-
-    void findManagedStaff(
-	const HttpRequestPtr& req,
-	std::function<void (const HttpResponsePtr&)>&& callback,
-	std::string managerId 
-    );
-
 };
 }

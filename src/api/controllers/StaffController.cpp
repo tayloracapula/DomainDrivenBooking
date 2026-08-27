@@ -39,3 +39,43 @@ void api::Staff::getStaffMember(
 
 }
 
+void api::Staff::getStaffForManager(
+	    const HttpRequestPtr& req,
+	    std::function<void (const HttpResponsePtr&)>&& callback,
+	    std::string staffId
+	    ){
+
+}
+
+void api::Staff::getManagerForStaff(
+	const HttpRequestPtr& req,
+	std::function<void (const HttpResponsePtr&)>&& callback,
+	std::string staffId
+	){
+
+}
+
+void api::Staff::updateName(
+	    const HttpRequestPtr& req,
+	    std::function<void (const HttpResponsePtr&)>&& callback,
+	    std::string staffId
+	    ){
+
+}
+
+void api::Staff::updateRole(
+	    const HttpRequestPtr& req,
+	    std::function<void (const HttpResponsePtr&)>&& callback,
+	    std::string staffId
+	){
+
+}
+
+void api::Staff::terminateEmployee(
+	    const HttpRequestPtr& req,
+	    std::function<void (const HttpResponsePtr&)>&& callback,
+	    std::string staffId
+	){
+
+}
+

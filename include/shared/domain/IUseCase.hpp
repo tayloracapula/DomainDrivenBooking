@@ -1,5 +1,4 @@
 #pragma once
-#include <stdexcept>
 template<
     typename TDto,
     typename TResult
