@@ -20,3 +20,13 @@ std::chrono::year_month_day parseDate(const std::string& value)
 	/  std::chrono::month{static_cast<unsigned>(month)}
 	/  std::chrono::day{static_cast<unsigned>(day)};
 }
+
+std::string dateToString(const std::chrono::year_month_day& date)
+{
+    return std::format(
+	"{:04}/{:02}/{:02}",
+	int(date.year()),
+	unsigned(date.month()),
+	unsigned(date.day())
+    );
+}
