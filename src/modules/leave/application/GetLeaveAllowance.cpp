@@ -1,9 +1,9 @@
 #include "modules/leave/application/services/GetLeaveAllowance.hpp"
 #include <exception>
 
-LeaveAllowance GetLeaveAllowance::execute(const GetDTO<Identity<LeaveAllowanceId>>& dto){
+LeaveAllowance GetLeaveAllowance::execute(const GetDTO<Identity<StaffId>>& dto){
     try {
-	auto leaveRequest = leaveAllowanceRepository_.findById(dto.id);
+	auto leaveRequest = leaveAllowanceRepository_.findByStaff(dto.id);
 
 	if (!leaveRequest) throw std::runtime_error("Failed to retrieve leave request");
 

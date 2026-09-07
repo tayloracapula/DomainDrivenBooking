@@ -16,8 +16,13 @@ class Leave: public drogon::HttpController<Leave>
     METHOD_LIST_BEGIN
     // use METHOD_ADD to add your custom processing function here;
     //METHOD_ADD(LeaveController::update,"",Put,Options);
-    METHOD_ADD(Leave::getLeaveRequest, "{1}", Get);
-
+    METHOD_ADD(Leave::createLeaveRequest, "", Post);
+    METHOD_ADD(Leave::getLeaveRequest, "/request/{1}", Get);
+    METHOD_ADD(Leave::getLeaveForStaff, "/request_list/{1}", Get);
+    METHOD_ADD(Leave::getLeaveAllowance, "/allowance/{1}", Get);
+    METHOD_ADD(Leave::cancelLeaveRequest, "/cancel/{1}", Patch);
+    METHOD_ADD(Leave::approveLeaveRequest, "/approve/{1}", Patch);
+    METHOD_ADD(Leave::denyLeaveRequest, "/deny/{1}", Patch);
     METHOD_LIST_END
 
 //    void update(const HttpRequestPtr &req,

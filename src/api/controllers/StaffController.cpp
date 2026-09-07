@@ -5,8 +5,11 @@
 #include "shared/domain/Identity.hpp"
 #include "shared/server/GetDTO.hpp"
 #include "shared/tools/ResponseTools.hpp"
+#include "shared/errors/CreateErrorResponse.hpp"
 #include "json/value.h"
 #include <drogon/HttpResponse.h>
+#include <drogon/HttpTypes.h>
+#include <exception>
 
 using namespace drogon;
 
@@ -14,27 +17,33 @@ void api::Staff::createStaffMember(
 	const HttpRequestPtr& req,
 	std::function<void (const HttpResponsePtr&)>&& callback
     ){
-    auto json = req->getJsonObject();
+    try {
+	auto json = req->getJsonObject();
 
-    CreateStaffMemberDTO dto;
+	CreateStaffMemberDTO dto;
 
-    dto.firstName = (*json)["firstName"].asString();
-    dto.surName = (*json)["surname"].asString();
-    dto.houseNameNumber = (*json)["houseNameNumber"].asString();
-    dto.street = (*json)["street"].asString();
-    dto.town = (*json)["town"].asString();
-    dto.postcode = (*json)["postcode"].asString();
-    dto.role = (*json)["role"].asString();   
-
-    if ((*json).isMember("managerId")) {
 	dto.firstName = (*json)["firstName"].asString();
+	dto.surName = (*json)["surname"].asString();
+	dto.houseNameNumber = (*json)["houseNameNumber"].asString();
+	dto.street = (*json)["street"].asString();
+	dto.town = (*json)["town"].asString();
+	dto.postcode = (*json)["postcode"].asString();
+	dto.role = (*json)["role"].asString();   
+
+	if ((*json).isMember("managerId")) {
+	    dto.managerId = (*json)["managerId"].asString();
+	}
+
+	auto id = ApplicationServices::instance()
+		    .createStaffMember()
+		    .execute(dto);
+
+	callback(createIdResponse(id.value()));
+    }catch (const std::exception e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
     }
-
-    auto id = ApplicationServices::instance()
-		.createStaffMember()
-		.execute(dto);
-
-    callback(createIdResponse(id.value()));
 }
 
 void api::Staff::getStaffMember(
@@ -42,16 +51,22 @@ void api::Staff::getStaffMember(
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string staffId
 	    ){
-    GetDTO<Identity<StaffId>> dto{
-	Identity<StaffId>::of(staffId)
-    };
+    try {
+	GetDTO<Identity<StaffId>> dto{
+	    Identity<StaffId>::of(staffId)
+	};
 
-    auto staff = ApplicationServices::instance()
-		.getStaffMember()
-		.execute(dto);
-    callback(HttpResponse::newHttpJsonResponse(
-	StaffResponseMapper::toJson(staff)
-    ));
+	auto staff = ApplicationServices::instance()
+		    .getStaffMember()
+		    .execute(dto);
+	callback(HttpResponse::newHttpJsonResponse(
+	    StaffResponseMapper::toJson(staff)
+	));
+    } catch (const std::exception e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }
 }
 
 void api::Staff::getStaffForManager(
@@ -59,24 +74,28 @@ void api::Staff::getStaffForManager(
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string staffId
 	    ){
-    GetDTO<Identity<StaffId>> dto{
-	Identity<StaffId>::of(staffId)
-    };
+    try {
+	GetDTO<Identity<StaffId>> dto{
+	    Identity<StaffId>::of(staffId)
+	};
+	auto staffMembers = ApplicationServices::instance()
+		    .getStaffForManager()
+		    .execute(dto);
 
-    auto staffMembers = ApplicationServices::instance()
-		.getStaffForManager()
-		.execute(dto);
+	Json::Value response(
+	    Json::arrayValue);
 
-    Json::Value response(
-	Json::arrayValue);
-
-    for (const auto& staff : staffMembers) {
-	response.append(StaffResponseMapper::toJson(staff));
+	for (const auto& staff : staffMembers) {
+	    response.append(StaffResponseMapper::toJson(staff));
+	}
+	callback(
+	    HttpResponse::newHttpJsonResponse(response)
+	);
+    } catch (const std::exception e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
     }
-    callback(
-	HttpResponse::newHttpJsonResponse(response)
-    );
-    
 }
 
 void api::Staff::getManagerForStaff(
@@ -84,17 +103,23 @@ void api::Staff::getManagerForStaff(
 	std::function<void (const HttpResponsePtr&)>&& callback,
 	std::string staffId
 	){
-    GetDTO<Identity<StaffId>> dto{
-	Identity<StaffId>::of(staffId)
-    };
+    try {
+	GetDTO<Identity<StaffId>> dto{
+	    Identity<StaffId>::of(staffId)
+	};
 
-    auto manager = ApplicationServices::instance()
-		.getManagerForStaff()
-		.execute(dto);
-    callback(HttpResponse::newHttpJsonResponse(
-	StaffResponseMapper::toJson(manager)
-	)
-    );
+	auto manager = ApplicationServices::instance()
+		    .getManagerForStaff()
+		    .execute(dto);
+	callback(HttpResponse::newHttpJsonResponse(
+	    StaffResponseMapper::toJson(manager)
+	    )
+	);
+    } catch (const std::exception e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }
 }
 
 void api::Staff::updateName(
@@ -102,18 +127,24 @@ void api::Staff::updateName(
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string staffId
 	    ){
-    auto json = req->getJsonObject();
+    try{
+	auto json = req->getJsonObject();
 
-    UpdateStaffNameDTO dto;
-    dto.staffId = staffId; 
-    dto.firstName = (*json)["firstName"].asString();
-    dto.surName = (*json)["surName"].asString();
+	UpdateStaffNameDTO dto;
+	dto.staffId = staffId; 
+	dto.firstName = (*json)["firstName"].asString();
+	dto.surName = (*json)["surName"].asString();
 
-    auto id = ApplicationServices::instance()
-	    .updateStaffName()
-	    .execute(dto);
+	auto id = ApplicationServices::instance()
+		.updateStaffName()
+		.execute(dto);
 
-    callback(createIdResponse(id.value()));
+	callback(createIdResponse(id.value()));
+    } catch (const std::exception e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }
 }
 
 
@@ -122,17 +153,23 @@ void api::Staff::updateRole(
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string staffId
 	){
-    auto json = req->getJsonObject();
+    try{
+	auto json = req->getJsonObject();
 
-    UpdateStaffRoleDTO dto;
-    dto.staffId = staffId;  
-    dto.role = (*json)["role"].asString();
+	UpdateStaffRoleDTO dto;
+	dto.staffId = staffId;  
+	dto.role = (*json)["role"].asString();
 
-    auto id = ApplicationServices::instance()
-	    .updateStaffRole()
-	    .execute(dto);
+	auto id = ApplicationServices::instance()
+		.updateStaffRole()
+		.execute(dto);
 
-    callback(createIdResponse(id.value()));
+	callback(createIdResponse(id.value()));
+    } catch (const std::exception e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }
 }
 
 void api::Staff::terminateEmployee(
@@ -140,13 +177,18 @@ void api::Staff::terminateEmployee(
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string staffId
 	){
+    try {
+	TerminateStaffMemberDTO dto;
 
-    TerminateStaffMemberDTO dto;
+	dto.staffId =  staffId;   
 
-    dto.staffId =  staffId;   
-
-    auto id = ApplicationServices::instance()
-	    .terminateStaffMember()
-	    .execute(dto);	
+	auto id = ApplicationServices::instance()
+		.terminateStaffMember()
+		.execute(dto);	
+    } catch (const std::exception e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }
 }
 

@@ -5,14 +5,14 @@
 #include "shared/domain/Identity.hpp"
 #include "shared/server/GetDTO.hpp"
 
-class GetLeaveAllowance : public IUseCase<GetDTO<Identity<LeaveAllowanceId>>, LeaveAllowance>
+class GetLeaveAllowance : public IUseCase<GetDTO<Identity<StaffId>>, LeaveAllowance>
 {
 public:
     GetLeaveAllowance(
 	ILeaveAllowanceRepository& leaveAllowanceRepository)
     :	leaveAllowanceRepository_(leaveAllowanceRepository)
     {}
-    LeaveAllowance execute(const GetDTO<Identity<LeaveAllowanceId>>& dto) override;
+    LeaveAllowance execute(const GetDTO<Identity<StaffId>>& dto) override;
 private:
     ILeaveAllowanceRepository& leaveAllowanceRepository_;
 };
