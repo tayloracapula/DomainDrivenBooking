@@ -1,7 +1,7 @@
 #include "infrastructure/server/api/LeaveController.hpp"
 #include "infrastructure/server/ApplicationServices.hpp"
-#include "infrastructure/server/api/JSONReturnMappers/LeaveResponseMapper.hpp"
-#include "infrastructure/server/api/JSONReturnMappers/LeaveAllowanceResponseMapper.hpp"
+#include "infrastructure/server/api/JSONMappers/LeaveResponseMapper.hpp"
+#include "infrastructure/server/api/JSONMappers/LeaveAllowanceResponseMapper.hpp"
 #include "modules/leave/application/dto/CancelLeaveRequestDTO.hpp"
 #include "modules/leave/application/dto/CreateLeaveRequestDTO.hpp"
 #include "modules/leave/domain/LeaveRequestId.hpp"
@@ -9,6 +9,7 @@
 #include "shared/server/GetDTO.hpp"
 #include "shared/errors/CreateErrorResponse.hpp"
 #include "shared/tools/ResponseTools.hpp"
+#include "shared/server/RequireString.hpp"
 #include <drogon/HttpResponse.h>
 #include <drogon/HttpTypes.h>
 #include <exception>
@@ -23,6 +24,11 @@ void api::Leave::createLeaveRequest(
     try{
 	LOG_INFO << "Request Recieved";
 	auto json = req->getJsonObject();
+
+	requireString(*json, "staffId");
+	requireString(*json, "startDate");
+	requireString(*json, "endDate");
+	requireString(*json, "reason");
 
 	CreateLeaveRequestDTO dto;
 
@@ -149,6 +155,8 @@ void api::Leave::approveLeaveRequest(
 	    ){
     try {
 	auto json = req->getJsonObject();
+	
+	requireString(*json, "managerId");
 
 	ApproveDenyLeaveRequestDTO dto;
 
@@ -174,6 +182,8 @@ void api::Leave::denyLeaveRequest(
 	    ){
     try{
 	auto json = req->getJsonObject();
+
+	requireString(*json, "managerId");
 
 	ApproveDenyLeaveRequestDTO dto;
 

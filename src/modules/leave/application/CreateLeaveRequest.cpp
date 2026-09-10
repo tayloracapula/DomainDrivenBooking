@@ -2,6 +2,7 @@
 #include "modules/leave/domain/LeaveStatus.hpp"
 #include "modules/staff/domain/StaffId.hpp"
 #include "shared/time/parseDate.hpp"
+#include "shared/errors/ErrorTypes.hpp"
 #include <exception>
 #include <stdexcept>
 
@@ -9,7 +10,7 @@ Identity<LeaveRequestId> CreateLeaveRequest::execute(const CreateLeaveRequestDTO
     try{
 	auto leaveAllowance = leaveAllowanceRepository_.findByStaff(Identity<StaffId>::of(dto.staffId));
 
-	if (!leaveAllowance) throw std::runtime_error("Failed to retrieve leave allowance");
+	if (!leaveAllowance) throw NotFoundException("Failed to retrieve leave allowance");
 
 	DateRange dateRange(
 		parseDate(dto.startDate),
@@ -17,7 +18,7 @@ Identity<LeaveRequestId> CreateLeaveRequest::execute(const CreateLeaveRequestDTO
 	);
 	
 	if (dateRange.days() > leaveAllowance->remainingDays()) {
-	    throw std::runtime_error("Not enough leave remaining");
+	    throw ValidationException("Not enough leave remaining");
 	}
 
 	LeaveRequest request(

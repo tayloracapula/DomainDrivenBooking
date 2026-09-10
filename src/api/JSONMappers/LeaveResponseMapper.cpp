@@ -1,4 +1,4 @@
-#include "infrastructure/server/api/JSONReturnMappers/LeaveResponseMapper.hpp"
+#include "infrastructure/server/api/JSONMappers/LeaveResponseMapper.hpp"
 #include "shared/time/parseDate.hpp"
 #include <ctime>
 

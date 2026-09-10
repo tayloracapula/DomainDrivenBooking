@@ -1,10 +1,11 @@
 #include "infrastructure/server/api/StaffController.hpp"
 #include "infrastructure/server/ApplicationServices.hpp"
-#include "infrastructure/server/api/JSONReturnMappers/StaffResponseMapper.hpp"
+#include "infrastructure/server/api/JSONMappers/StaffResponseMapper.hpp"
 #include "modules/staff/domain/StaffId.hpp"
 #include "shared/domain/Identity.hpp"
 #include "shared/server/GetDTO.hpp"
 #include "shared/tools/ResponseTools.hpp"
+#include "shared/server/RequireString.hpp"
 #include "shared/errors/CreateErrorResponse.hpp"
 #include "json/value.h"
 #include <drogon/HttpResponse.h>
@@ -20,6 +21,14 @@ void api::Staff::createStaffMember(
     try {
 	auto json = req->getJsonObject();
 
+	requireString(*json, "firstName");
+	requireString(*json, "surname");
+	requireString(*json, "houseNameNumber");
+	requireString(*json, "street");
+	requireString(*json, "town");
+	requireString(*json, "postcode");
+	requireString(*json, "role");
+
 	CreateStaffMemberDTO dto;
 
 	dto.firstName = (*json)["firstName"].asString();
@@ -31,6 +40,7 @@ void api::Staff::createStaffMember(
 	dto.role = (*json)["role"].asString();   
 
 	if ((*json).isMember("managerId")) {
+	    requireString(*json, "managerId");
 	    dto.managerId = (*json)["managerId"].asString();
 	}
 
@@ -130,6 +140,9 @@ void api::Staff::updateName(
     try{
 	auto json = req->getJsonObject();
 
+	requireString(*json, "firstName");
+	requireString(*json, "surname");
+
 	UpdateStaffNameDTO dto;
 	dto.staffId = staffId; 
 	dto.firstName = (*json)["firstName"].asString();
@@ -155,6 +168,8 @@ void api::Staff::updateRole(
 	){
     try{
 	auto json = req->getJsonObject();
+
+	requireString(*json, "role");
 
 	UpdateStaffRoleDTO dto;
 	dto.staffId = staffId;  

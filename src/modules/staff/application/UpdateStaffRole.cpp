@@ -1,11 +1,11 @@
 #include "modules/staff/application/services/UpdateStaffRole.hpp"
-#include <exception>
+#include "shared/errors/ErrorTypes.hpp"
 
 Identity<StaffId> UpdateStaffRole::execute(const UpdateStaffRoleDTO& dto){
     try {
 	auto staff = staffRepository_.findById(Identity<StaffId>::of(dto.staffId));
 
-	if (!staff) throw std::runtime_error("Failed to retrieve staff Member");
+	if (!staff) throw NotFoundException("Failed to retrieve staff Member");
 	
 
 	staff->changeRole(stringToRole(dto.role));

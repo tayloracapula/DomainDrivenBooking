@@ -1,4 +1,4 @@
-#include "infrastructure/server/api/JSONReturnMappers/LeaveAllowanceResponseMapper.hpp"
+#include "infrastructure/server/api/JSONMappers/LeaveAllowanceResponseMapper.hpp"
 
 Json::Value LeaveAllowanceResponseMapper::toJson(const LeaveAllowance &leaveAllowance){
     Json::Value json;

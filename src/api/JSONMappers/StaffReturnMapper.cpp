@@ -1,4 +1,4 @@
-#include "infrastructure/server/api/JSONReturnMappers/StaffResponseMapper.hpp"
+#include "infrastructure/server/api/JSONMappers/StaffResponseMapper.hpp"
 
 Json::Value StaffResponseMapper::toJson(const StaffMember &staff){
     Json::Value json;

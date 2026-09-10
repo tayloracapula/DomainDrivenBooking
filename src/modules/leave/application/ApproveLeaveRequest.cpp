@@ -1,6 +1,7 @@
 #include "modules/leave/domain/LeaveRequestId.hpp"
 #include "modules/staff/domain/StaffId.hpp"
 #include "shared/domain/Identity.hpp"
+#include "shared/errors/ErrorTypes.hpp"
 #include <exception>
 #include <stdexcept>
 #include "modules/leave/application/services/ApproveLeaveRequest.hpp"
@@ -9,15 +10,15 @@ Identity<LeaveRequestId> ApproveLeaveRequest::execute(const ApproveDenyLeaveRequ
     try {
 	auto leaveRequest = leaveRepository_.findById(Identity<LeaveRequestId>::of(dto.leaveRequestId));
 
-	if (!leaveRequest) throw std::runtime_error("Failed to retrieve leave request");
+	if (!leaveRequest) throw NotFoundException("Failed to retrieve leave request");
 
 	auto leaveAllowance = leaveAllowanceRepository_.findByStaff(leaveRequest->staffId());
 
-	if (!leaveAllowance) throw std::runtime_error("Failed to retrieve leave allowance");
+	if (!leaveAllowance) throw NotFoundException("Failed to retrieve leave allowance");
 
 	auto manager = staffRepository_.findById(Identity<StaffId>::of(dto.ManagerId));
 
-	if (!manager) throw std::runtime_error("Failed to retrieve manager");
+	if (!manager) throw NotFoundException("Failed to retrieve manager");
 	
 	leaveRequest->approve();
 

@@ -1,11 +1,11 @@
 #include "modules/leave/application/services/GetLeaveRequestForStaff.hpp"
-#include <exception>
+#include "shared/errors/ErrorTypes.hpp"
 
 std::vector<LeaveRequest> GetLeaveForStaff::execute(const GetDTO<Identity<StaffId>>& dto){
     try {
 	auto requests = leaveRepository_.findByStaff(dto.id);
 
-	if (requests.empty()) throw std::runtime_error("Failed to retrieve leave requests");
+	if (requests.empty()) throw NotFoundException("Failed to retrieve leave requests");
 
 	return requests;
 	
