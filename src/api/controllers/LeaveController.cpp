@@ -42,9 +42,17 @@ void api::Leave::createLeaveRequest(
 		    .execute(dto);
 
 	callback(createIdResponse(id.value()));
-    } catch (const std::exception& e){
+    }catch (const ValidationException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -55,6 +63,8 @@ void api::Leave::getLeaveRequest(
 	    std::string leaveId
 	    ){
     try{
+	LOG_INFO << "Request Recieved";
+
 	GetDTO<Identity<LeaveRequestId>> dto{
 	    Identity<LeaveRequestId>::of(leaveId)
 	};
@@ -65,11 +75,20 @@ void api::Leave::getLeaveRequest(
 	callback(HttpResponse::newHttpJsonResponse(
 	    LeaveResponseMapper::toJson(leaveRequest)
 	));
-    } catch (const std::exception& e){
+    }catch (const ValidationException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k404NotFound)
 	);
-    }    
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
+	);
+    }
+    
 }
 
 void api::Leave::getLeaveForStaff(
@@ -78,6 +97,8 @@ void api::Leave::getLeaveForStaff(
 	    std::string staffId
 	    ){
     try{
+	LOG_INFO << "Request Recieved";
+
 	GetDTO<Identity<StaffId>> dto{
 	    Identity<StaffId>::of(staffId)
 	};
@@ -95,9 +116,17 @@ void api::Leave::getLeaveForStaff(
 	callback(
 	    HttpResponse::newHttpJsonResponse(response)
 	);
-    } catch (const std::exception& e){
+    }catch (const ValidationException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -108,6 +137,8 @@ void api::Leave::getLeaveAllowance(
 	    std::string staffId
 	    ){
     try {
+	LOG_INFO << "Request Recieved";
+
 	GetDTO<Identity<StaffId>> dto{
 	    Identity<StaffId>::of(staffId)
 	};
@@ -119,9 +150,17 @@ void api::Leave::getLeaveAllowance(
 	callback(HttpResponse::newHttpJsonResponse(
 	    LeaveAllowanceResponseMapper::toJson(leaveAllowance)
 	));
-    } catch (const std::exception& e){
+    }catch (const ValidationException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -132,6 +171,8 @@ void api::Leave::cancelLeaveRequest(
 	    std::string leaveId
 	    ){
     try {
+	LOG_INFO << "Request Recieved";
+
 	CancelLeaveRequestDTO dto;
 
 	dto.leaveRequestId = leaveId;
@@ -141,9 +182,17 @@ void api::Leave::cancelLeaveRequest(
 		.execute(dto);
 
 	callback(createIdResponse(id.value()));
-    } catch (const std::exception& e){
+    }catch (const ValidationException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -154,6 +203,8 @@ void api::Leave::approveLeaveRequest(
 	    std::string leaveId
 	    ){
     try {
+	LOG_INFO << "Request Recieved";
+
 	auto json = req->getJsonObject();
 	
 	requireString(*json, "managerId");
@@ -168,9 +219,17 @@ void api::Leave::approveLeaveRequest(
 		    .execute(dto);
 
 	callback(createIdResponse(id.value()));
-    } catch (const std::exception& e){
+    }catch (const ValidationException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -180,7 +239,9 @@ void api::Leave::denyLeaveRequest(
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string leaveId
 	    ){
-    try{
+    try {
+	LOG_INFO << "Request Recieved";
+
 	auto json = req->getJsonObject();
 
 	requireString(*json, "managerId");
@@ -195,9 +256,17 @@ void api::Leave::denyLeaveRequest(
 		    .execute(dto);
 
 	callback(createIdResponse(id.value()));
-    } catch (const std::exception& e){
+    }catch (const ValidationException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }

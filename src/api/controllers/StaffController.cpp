@@ -19,6 +19,8 @@ void api::Staff::createStaffMember(
 	std::function<void (const HttpResponsePtr&)>&& callback
     ){
     try {
+	LOG_INFO << "Request Recieved";
+
 	auto json = req->getJsonObject();
 
 	requireString(*json, "firstName");
@@ -49,9 +51,17 @@ void api::Staff::createStaffMember(
 		    .execute(dto);
 
 	callback(createIdResponse(id.value()));
-    }catch (const std::exception e){
+    }catch (const ValidationException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -62,6 +72,8 @@ void api::Staff::getStaffMember(
 	    std::string staffId
 	    ){
     try {
+	LOG_INFO << "Request Recieved";
+
 	GetDTO<Identity<StaffId>> dto{
 	    Identity<StaffId>::of(staffId)
 	};
@@ -72,9 +84,17 @@ void api::Staff::getStaffMember(
 	callback(HttpResponse::newHttpJsonResponse(
 	    StaffResponseMapper::toJson(staff)
 	));
-    } catch (const std::exception e){
+    }catch (const ValidationException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -85,6 +105,8 @@ void api::Staff::getStaffForManager(
 	    std::string staffId
 	    ){
     try {
+	LOG_INFO << "Request Recieved";
+
 	GetDTO<Identity<StaffId>> dto{
 	    Identity<StaffId>::of(staffId)
 	};
@@ -101,9 +123,17 @@ void api::Staff::getStaffForManager(
 	callback(
 	    HttpResponse::newHttpJsonResponse(response)
 	);
-    } catch (const std::exception e){
+    }catch (const ValidationException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -114,6 +144,8 @@ void api::Staff::getManagerForStaff(
 	std::string staffId
 	){
     try {
+	LOG_INFO << "Request Recieved";
+
 	GetDTO<Identity<StaffId>> dto{
 	    Identity<StaffId>::of(staffId)
 	};
@@ -125,9 +157,17 @@ void api::Staff::getManagerForStaff(
 	    StaffResponseMapper::toJson(manager)
 	    )
 	);
-    } catch (const std::exception e){
+    }catch (const ValidationException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -137,7 +177,9 @@ void api::Staff::updateName(
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string staffId
 	    ){
-    try{
+    try {
+	LOG_INFO << "Request Recieved";
+
 	auto json = req->getJsonObject();
 
 	requireString(*json, "firstName");
@@ -153,9 +195,17 @@ void api::Staff::updateName(
 		.execute(dto);
 
 	callback(createIdResponse(id.value()));
-    } catch (const std::exception e){
+    }catch (const ValidationException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -166,7 +216,9 @@ void api::Staff::updateRole(
 	    std::function<void (const HttpResponsePtr&)>&& callback,
 	    std::string staffId
 	){
-    try{
+    try {
+	LOG_INFO << "Request Recieved";
+
 	auto json = req->getJsonObject();
 
 	requireString(*json, "role");
@@ -180,9 +232,17 @@ void api::Staff::updateRole(
 		.execute(dto);
 
 	callback(createIdResponse(id.value()));
-    } catch (const std::exception e){
+    }catch (const ValidationException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }
@@ -193,6 +253,8 @@ void api::Staff::terminateEmployee(
 	    std::string staffId
 	){
     try {
+	LOG_INFO << "Request Recieved";
+
 	TerminateStaffMemberDTO dto;
 
 	dto.staffId =  staffId;   
@@ -200,9 +262,17 @@ void api::Staff::terminateEmployee(
 	auto id = ApplicationServices::instance()
 		.terminateStaffMember()
 		.execute(dto);	
-    } catch (const std::exception e){
+    }catch (const ValidationException& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k400BadRequest)
+	);
+    }catch (const NotFoundException& e){
 	callback(
 	    createErrorMessage(e.what(), drogon::k404NotFound)
+	);
+    }catch (const std::exception& e){
+	callback(
+	    createErrorMessage(e.what(), drogon::k500InternalServerError)
 	);
     }
 }

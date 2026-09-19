@@ -8,7 +8,8 @@
     "tables": [
 	"staff_member",
 	"leave_request",
-	"leave_allowance"
+	"leave_allowance",
+	"notification"
     ],
     "output_path": "./include/infrastructure/persistence/models"
 }
