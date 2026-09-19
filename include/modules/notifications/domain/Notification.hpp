@@ -1,10 +1,12 @@
 #pragma once
 
+#include "modules/leave/domain/LeaveRequestId.hpp"
 #include "modules/notifications/domain/NotificationId.hpp"
 #include "modules/notifications/domain/NotificationType.hpp"
 #include "modules/staff/domain/StaffId.hpp"
 #include "shared/domain/Entity.hpp"
 #include <chrono>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -14,15 +16,21 @@ public:
     Notification(
 	Identity<NotificationId> id,
 	Identity<StaffId> staffId,
+	std::optional<Identity<LeaveRequestId>> leaveRequestId,
 	NotificationType notificationType,
-	std::string message
+	std::string title,
+	std::string message,
+	std::chrono::system_clock::time_point createdAt,
+	bool isRead
     )
     :	Entity(std::move(id)),
 	staffId_(std::move(staffId)),
+	leaveRequestId_(std::move(leaveRequestId)),
 	notificationType_(std::move(notificationType)),
+	title_(std::move(title)),
 	message_(std::move(message)),
-	createdAt_(std::chrono::system_clock::now()),
-	isRead_(false)
+	createdAt_(std::move(createdAt)),
+	isRead_(std::move(isRead))
     {}
     //operators
     void markRead() {
@@ -50,8 +58,10 @@ public:
 
 private:
     Identity<StaffId> staffId_;
+    std::optional<Identity<LeaveRequestId>> leaveRequestId_;
     NotificationType notificationType_;
     std::string message_;
+    std::string title_;
     std::chrono::system_clock::time_point createdAt_;
     bool isRead_;
 };
