@@ -5,9 +5,9 @@
  *
  */
 
-#include "Notification.h"
-#include "LeaveRequest.h"
-#include "StaffMember.h"
+#include "infrastructure/persistence/models/Notification.hpp"
+#include "infrastructure/persistence/models/LeaveRequest.hpp"
+#include "infrastructure/persistence/models/StaffMember.hpp"
 #include <drogon/utils/Utilities.h>
 #include <string>
 
@@ -22,6 +22,7 @@ const std::string Notification::Cols::_title = "\"title\"";
 const std::string Notification::Cols::_message = "\"message\"";
 const std::string Notification::Cols::_created_at = "\"created_at\"";
 const std::string Notification::Cols::_is_read = "\"is_read\"";
+const std::string Notification::Cols::_notification_type = "\"notification_type\"";
 const std::string Notification::primaryKeyName = "id";
 const bool Notification::hasPrimaryKey = true;
 const std::string Notification::tableName = "\"notification\"";
@@ -33,7 +34,8 @@ const std::vector<typename Notification::MetaData> Notification::metaData_={
 {"title","std::string","text",0,0,0,1},
 {"message","std::string","text",0,0,0,1},
 {"created_at","::trantor::Date","timestamp without time zone",0,0,0,1},
-{"is_read","bool","boolean",1,0,0,1}
+{"is_read","bool","boolean",1,0,0,1},
+{"notification_type","std::string","text",0,0,0,1}
 };
 const std::string &Notification::getColumnName(size_t index) noexcept(false)
 {
@@ -91,11 +93,15 @@ Notification::Notification(const Row &r, const ssize_t indexOffset) noexcept
         {
             isRead_=std::make_shared<bool>(r["is_read"].as<bool>());
         }
+        if(!r["notification_type"].isNull())
+        {
+            notificationType_=std::make_shared<std::string>(r["notification_type"].as<std::string>());
+        }
     }
     else
     {
         size_t offset = (size_t)indexOffset;
-        if(offset + 7 > r.size())
+        if(offset + 8 > r.size())
         {
             LOG_FATAL << "Invalid SQL result for this model";
             return;
@@ -155,13 +161,18 @@ Notification::Notification(const Row &r, const ssize_t indexOffset) noexcept
         {
             isRead_=std::make_shared<bool>(r[index].as<bool>());
         }
+        index = offset + 7;
+        if(!r[index].isNull())
+        {
+            notificationType_=std::make_shared<std::string>(r[index].as<std::string>());
+        }
     }
 
 }
 
 Notification::Notification(const Json::Value &pJson, const std::vector<std::string> &pMasqueradingVector) noexcept(false)
 {
-    if(pMasqueradingVector.size() != 7)
+    if(pMasqueradingVector.size() != 8)
     {
         LOG_ERROR << "Bad masquerading vector";
         return;
@@ -239,6 +250,14 @@ Notification::Notification(const Json::Value &pJson, const std::vector<std::stri
         if(!pJson[pMasqueradingVector[6]].isNull())
         {
             isRead_=std::make_shared<bool>(pJson[pMasqueradingVector[6]].asBool());
+        }
+    }
+    if(!pMasqueradingVector[7].empty() && pJson.isMember(pMasqueradingVector[7]))
+    {
+        dirtyFlag_[7] = true;
+        if(!pJson[pMasqueradingVector[7]].isNull())
+        {
+            notificationType_=std::make_shared<std::string>(pJson[pMasqueradingVector[7]].asString());
         }
     }
 }
@@ -320,12 +339,20 @@ Notification::Notification(const Json::Value &pJson) noexcept(false)
             isRead_=std::make_shared<bool>(pJson["is_read"].asBool());
         }
     }
+    if(pJson.isMember("notification_type"))
+    {
+        dirtyFlag_[7]=true;
+        if(!pJson["notification_type"].isNull())
+        {
+            notificationType_=std::make_shared<std::string>(pJson["notification_type"].asString());
+        }
+    }
 }
 
 void Notification::updateByMasqueradedJson(const Json::Value &pJson,
                                             const std::vector<std::string> &pMasqueradingVector) noexcept(false)
 {
-    if(pMasqueradingVector.size() != 7)
+    if(pMasqueradingVector.size() != 8)
     {
         LOG_ERROR << "Bad masquerading vector";
         return;
@@ -404,6 +431,14 @@ void Notification::updateByMasqueradedJson(const Json::Value &pJson,
             isRead_=std::make_shared<bool>(pJson[pMasqueradingVector[6]].asBool());
         }
     }
+    if(!pMasqueradingVector[7].empty() && pJson.isMember(pMasqueradingVector[7]))
+    {
+        dirtyFlag_[7] = true;
+        if(!pJson[pMasqueradingVector[7]].isNull())
+        {
+            notificationType_=std::make_shared<std::string>(pJson[pMasqueradingVector[7]].asString());
+        }
+    }
 }
 
 void Notification::updateByJson(const Json::Value &pJson) noexcept(false)
@@ -480,6 +515,14 @@ void Notification::updateByJson(const Json::Value &pJson) noexcept(false)
         if(!pJson["is_read"].isNull())
         {
             isRead_=std::make_shared<bool>(pJson["is_read"].asBool());
+        }
+    }
+    if(pJson.isMember("notification_type"))
+    {
+        dirtyFlag_[7] = true;
+        if(!pJson["notification_type"].isNull())
+        {
+            notificationType_=std::make_shared<std::string>(pJson["notification_type"].asString());
         }
     }
 }
@@ -638,6 +681,28 @@ void Notification::setIsRead(const bool &pIsRead) noexcept
     dirtyFlag_[6] = true;
 }
 
+const std::string &Notification::getValueOfNotificationType() const noexcept
+{
+    static const std::string defaultValue = std::string();
+    if(notificationType_)
+        return *notificationType_;
+    return defaultValue;
+}
+const std::shared_ptr<std::string> &Notification::getNotificationType() const noexcept
+{
+    return notificationType_;
+}
+void Notification::setNotificationType(const std::string &pNotificationType) noexcept
+{
+    notificationType_ = std::make_shared<std::string>(pNotificationType);
+    dirtyFlag_[7] = true;
+}
+void Notification::setNotificationType(std::string &&pNotificationType) noexcept
+{
+    notificationType_ = std::make_shared<std::string>(std::move(pNotificationType));
+    dirtyFlag_[7] = true;
+}
+
 void Notification::updateId(const uint64_t id)
 {
 }
@@ -651,7 +716,8 @@ const std::vector<std::string> &Notification::insertColumns() noexcept
         "title",
         "message",
         "created_at",
-        "is_read"
+        "is_read",
+        "notification_type"
     };
     return inCols;
 }
@@ -735,6 +801,17 @@ void Notification::outputArgs(drogon::orm::internal::SqlBinder &binder) const
             binder << nullptr;
         }
     }
+    if(dirtyFlag_[7])
+    {
+        if(getNotificationType())
+        {
+            binder << getValueOfNotificationType();
+        }
+        else
+        {
+            binder << nullptr;
+        }
+    }
 }
 
 const std::vector<std::string> Notification::updateColumns() const
@@ -767,6 +844,10 @@ const std::vector<std::string> Notification::updateColumns() const
     if(dirtyFlag_[6])
     {
         ret.push_back(getColumnName(6));
+    }
+    if(dirtyFlag_[7])
+    {
+        ret.push_back(getColumnName(7));
     }
     return ret;
 }
@@ -850,6 +931,17 @@ void Notification::updateArgs(drogon::orm::internal::SqlBinder &binder) const
             binder << nullptr;
         }
     }
+    if(dirtyFlag_[7])
+    {
+        if(getNotificationType())
+        {
+            binder << getValueOfNotificationType();
+        }
+        else
+        {
+            binder << nullptr;
+        }
+    }
 }
 Json::Value Notification::toJson() const
 {
@@ -910,6 +1002,14 @@ Json::Value Notification::toJson() const
     {
         ret["is_read"]=Json::Value();
     }
+    if(getNotificationType())
+    {
+        ret["notification_type"]=getValueOfNotificationType();
+    }
+    else
+    {
+        ret["notification_type"]=Json::Value();
+    }
     return ret;
 }
 
@@ -922,7 +1022,7 @@ Json::Value Notification::toMasqueradedJson(
     const std::vector<std::string> &pMasqueradingVector) const
 {
     Json::Value ret;
-    if(pMasqueradingVector.size() == 7)
+    if(pMasqueradingVector.size() == 8)
     {
         if(!pMasqueradingVector[0].empty())
         {
@@ -1001,6 +1101,17 @@ Json::Value Notification::toMasqueradedJson(
                 ret[pMasqueradingVector[6]]=Json::Value();
             }
         }
+        if(!pMasqueradingVector[7].empty())
+        {
+            if(getNotificationType())
+            {
+                ret[pMasqueradingVector[7]]=getValueOfNotificationType();
+            }
+            else
+            {
+                ret[pMasqueradingVector[7]]=Json::Value();
+            }
+        }
         return ret;
     }
     LOG_ERROR << "Masquerade failed";
@@ -1059,6 +1170,14 @@ Json::Value Notification::toMasqueradedJson(
     else
     {
         ret["is_read"]=Json::Value();
+    }
+    if(getNotificationType())
+    {
+        ret["notification_type"]=getValueOfNotificationType();
+    }
+    else
+    {
+        ret["notification_type"]=Json::Value();
     }
     return ret;
 }
@@ -1130,13 +1249,23 @@ bool Notification::validateJsonForCreation(const Json::Value &pJson, std::string
         err="The is_read column cannot be null";
         return false;
     }
+    if(pJson.isMember("notification_type"))
+    {
+        if(!validJsonOfField(7, "notification_type", pJson["notification_type"], err, true))
+            return false;
+    }
+    else
+    {
+        err="The notification_type column cannot be null";
+        return false;
+    }
     return true;
 }
 bool Notification::validateMasqueradedJsonForCreation(const Json::Value &pJson,
                                                       const std::vector<std::string> &pMasqueradingVector,
                                                       std::string &err)
 {
-    if(pMasqueradingVector.size() != 7)
+    if(pMasqueradingVector.size() != 8)
     {
         err = "Bad masquerading vector";
         return false;
@@ -1228,6 +1357,19 @@ bool Notification::validateMasqueradedJsonForCreation(const Json::Value &pJson,
             return false;
         }
       }
+      if(!pMasqueradingVector[7].empty())
+      {
+          if(pJson.isMember(pMasqueradingVector[7]))
+          {
+              if(!validJsonOfField(7, pMasqueradingVector[7], pJson[pMasqueradingVector[7]], err, true))
+                  return false;
+          }
+        else
+        {
+            err="The " + pMasqueradingVector[7] + " column cannot be null";
+            return false;
+        }
+      }
     }
     catch(const Json::LogicError &e)
     {
@@ -1278,13 +1420,18 @@ bool Notification::validateJsonForUpdate(const Json::Value &pJson, std::string &
         if(!validJsonOfField(6, "is_read", pJson["is_read"], err, false))
             return false;
     }
+    if(pJson.isMember("notification_type"))
+    {
+        if(!validJsonOfField(7, "notification_type", pJson["notification_type"], err, false))
+            return false;
+    }
     return true;
 }
 bool Notification::validateMasqueradedJsonForUpdate(const Json::Value &pJson,
                                                     const std::vector<std::string> &pMasqueradingVector,
                                                     std::string &err)
 {
-    if(pMasqueradingVector.size() != 7)
+    if(pMasqueradingVector.size() != 8)
     {
         err = "Bad masquerading vector";
         return false;
@@ -1328,6 +1475,11 @@ bool Notification::validateMasqueradedJsonForUpdate(const Json::Value &pJson,
       if(!pMasqueradingVector[6].empty() && pJson.isMember(pMasqueradingVector[6]))
       {
           if(!validJsonOfField(6, pMasqueradingVector[6], pJson[pMasqueradingVector[6]], err, false))
+              return false;
+      }
+      if(!pMasqueradingVector[7].empty() && pJson.isMember(pMasqueradingVector[7]))
+      {
+          if(!validJsonOfField(7, pMasqueradingVector[7], pJson[pMasqueradingVector[7]], err, false))
               return false;
       }
     }
@@ -1424,6 +1576,18 @@ bool Notification::validJsonOfField(size_t index,
                 return false;
             }
             if(!pJson.isBool())
+            {
+                err="Type error in the "+fieldName+" field";
+                return false;
+            }
+            break;
+        case 7:
+            if(pJson.isNull())
+            {
+                err="The " + fieldName + " column cannot be null";
+                return false;
+            }
+            if(!pJson.isString())
             {
                 err="Type error in the "+fieldName+" field";
                 return false;

@@ -1,3 +1,4 @@
+#pragma once
 #include <stdexcept>
 
 class ApplicationException : public std::runtime_error{

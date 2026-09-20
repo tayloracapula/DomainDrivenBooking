@@ -16,3 +16,22 @@ inline trantor::Date toTrantorDate(const std::chrono::year_month_day& date) {
 
     return trantor::Date(micros.count());
 }
+
+inline std::chrono::system_clock::time_point toTimePoint(const trantor::Date& date)
+{
+    return std::chrono::system_clock::time_point{
+	std::chrono::microseconds{
+	    date.microSecondsSinceEpoch()
+	}
+    };
+}
+
+inline trantor::Date toTrantorDateTp(const std::chrono::system_clock::time_point& timePoint)
+{
+    const auto microseconds = 
+	std::chrono::duration_cast<std::chrono::microseconds>(
+	    timePoint.time_since_epoch()
+	).count();
+
+    return trantor::Date{microseconds};
+}

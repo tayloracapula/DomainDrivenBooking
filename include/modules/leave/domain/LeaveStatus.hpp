@@ -1,6 +1,5 @@
 #pragma once
-
-#include <stdexcept>
+#include "shared/errors/ErrorTypes.hpp"
 #include <string>
 enum class LeaveStatus {
     Pending,
@@ -16,7 +15,7 @@ inline LeaveStatus stringToLeaveStatus(const std::string &value){
     if (value == "rejected") return LeaveStatus::Rejected;
     if (value == "cancelled") return LeaveStatus::Cancelled;
     
-    throw std::runtime_error(
+    throw ValidationException(
 	"Unknown role value: " + value 
     );
 }

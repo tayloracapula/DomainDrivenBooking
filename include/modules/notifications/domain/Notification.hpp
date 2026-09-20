@@ -43,8 +43,14 @@ public:
     const Identity<StaffId>& staffId() const noexcept {
 	return staffId_;
     }
+    const std::optional<Identity<LeaveRequestId>> leaveRequestId() const noexcept {
+	return leaveRequestId_;
+    }
     const NotificationType& notificationType() const noexcept {
 	return notificationType_;
+    }
+    const std::string& title() const noexcept {
+	return title_;
     }
     const std::string& message() const noexcept {
 	return message_;

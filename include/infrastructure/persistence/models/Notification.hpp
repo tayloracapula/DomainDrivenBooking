@@ -53,6 +53,7 @@ class Notification
         static const std::string _message;
         static const std::string _created_at;
         static const std::string _is_read;
+        static const std::string _notification_type;
     };
 
     static const int primaryKeyNumber;
@@ -166,8 +167,17 @@ class Notification
     ///Set the value of the column is_read
     void setIsRead(const bool &pIsRead) noexcept;
 
+    /**  For column notification_type  */
+    ///Get the value of the column notification_type, returns the default value if the column is null
+    const std::string &getValueOfNotificationType() const noexcept;
+    ///Return a shared_ptr object pointing to the column const value, or an empty shared_ptr object if the column is null
+    const std::shared_ptr<std::string> &getNotificationType() const noexcept;
+    ///Set the value of the column notification_type
+    void setNotificationType(const std::string &pNotificationType) noexcept;
+    void setNotificationType(std::string &&pNotificationType) noexcept;
 
-    static size_t getColumnNumber() noexcept {  return 7;  }
+
+    static size_t getColumnNumber() noexcept {  return 8;  }
     static const std::string &getColumnName(size_t index) noexcept(false);
 
     Json::Value toJson() const;
@@ -204,6 +214,7 @@ class Notification
     std::shared_ptr<std::string> message_;
     std::shared_ptr<::trantor::Date> createdAt_;
     std::shared_ptr<bool> isRead_;
+    std::shared_ptr<std::string> notificationType_;
     struct MetaData
     {
         const std::string colName_;
@@ -215,7 +226,7 @@ class Notification
         const bool notNull_;
     };
     static const std::vector<MetaData> metaData_;
-    bool dirtyFlag_[7]={ false };
+    bool dirtyFlag_[8]={ false };
   public:
     static const std::string &sqlForFindingByPrimaryKey()
     {
@@ -268,6 +279,11 @@ class Notification
             sql += "is_read,";
             ++parametersCount;
         }
+        if(dirtyFlag_[7])
+        {
+            sql += "notification_type,";
+            ++parametersCount;
+        }
         if(parametersCount > 0)
         {
             sql[sql.length()-1]=')';
@@ -310,6 +326,11 @@ class Notification
             sql.append(placeholderStr, n);
         }
         if(dirtyFlag_[6])
+        {
+            n = snprintf(placeholderStr,sizeof(placeholderStr),"$%d,",placeholder++);
+            sql.append(placeholderStr, n);
+        }
+        if(dirtyFlag_[7])
         {
             n = snprintf(placeholderStr,sizeof(placeholderStr),"$%d,",placeholder++);
             sql.append(placeholderStr, n);
